@@ -52,7 +52,8 @@ var schema = new mongoose.Schema({
     phoneNum: String,
     type: {
         type: String,
-        enum: ['Admin', 'User', 'Guest']
+        enum: ['Admin', 'User', 'Guest'],
+        default: 'Guest'
     }
 });
 
