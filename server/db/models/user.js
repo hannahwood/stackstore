@@ -5,7 +5,9 @@ var _ = require('lodash');
 
 var schema = new mongoose.Schema({
     email: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
     password: {
         type: String
@@ -24,6 +26,33 @@ var schema = new mongoose.Schema({
     },
     google: {
         id: String
+    },
+    billingAddress: {
+        streetAddress: String,
+        unitNum: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: {
+            type: String,
+            default: 'United States'
+        }
+    },
+    shippingAddress: {
+        streetAddress: String,
+        unitNum: String,
+        city: String,
+        state: String,
+        postalCode: String,
+        country: {
+            type: String,
+            default: 'United States'
+        }
+    },
+    phoneNum: String,
+    type: {
+        type: String,
+        enum: ['Admin', 'User', 'Guest']
     }
 });
 
