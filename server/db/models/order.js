@@ -11,7 +11,7 @@ const cartSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function(amount) {
-        return Math.floor(amount) === amount;
+        return Math.floor(amount);
       },
       message: 'Amount must be a whole number'
     }
@@ -19,11 +19,11 @@ const cartSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.ObjectId, ref: 'Product',
     required: true
-  },
-  order: {
-    type:Schema.ObjectId, ref: 'Order',
-    required: true
   }
+  // order: {
+  //  type:Schema.ObjectId, ref: 'Order',
+  //  required: true
+  // }
 });
 
 
