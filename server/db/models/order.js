@@ -1,30 +1,21 @@
 'use strict';
+
 const mongoose = require('mongoose');
 
-const cartSchema = new mongoose.Schema({
-  finalPrice: {
-    type: Number,
-    required: true
-  },
-  quantity: {
-    type: Number,
-    required: true,
-    validate: {
-      validator: function(amount) {
-        return Math.floor(amount);
-      },
-      message: 'Amount must be a whole number'
-    }
-  },
-  product: {
-    type: mongoose.Schema.ObjectId, ref: 'Product',
-    required: true
-  }
-  // order: {
-  //  type:Schema.ObjectId, ref: 'Order',
-  //  required: true
-  // }
+const orderSchema = new mongoose.Schema({
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
+	date: {
+		type: Date,
+		default: Date.now
+	},
+	status: {
+		required: true,
+		enum: ['created', 'processing', 'shipped', 'cancelled', 'completed']
+	}
 });
 
+mongoose.model('Order', orderSchema);
 
-mongoose.model('CartItem', cartSchema);
