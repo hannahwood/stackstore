@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema({
 		}
 	},
 	photo: {
-		default: 'https://hr-avatars.s3.amazonaws.com/2af1ef57-b9d2-4528-8f50-57569e36c3ed/150x150.png' // some filler image
+		// default: 'https://hr-avatars.s3.amazonaws.com/2af1ef57-b9d2-4528-8f50-57569e36c3ed/150x150.png' // some filler image
 	}
 });
 
