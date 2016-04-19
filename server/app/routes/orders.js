@@ -55,9 +55,10 @@ router.post('/:userId', function(req, res, next) {
 
 //get all orders (admin)
 router.get('/', function(req, res, next) {
+	console.log('got here!')
 	Order.find({})
 	.then(function(orders){
-		res.json(orders);
+		// res.json(orders);
 	})
 	.then(null, next);
 });
