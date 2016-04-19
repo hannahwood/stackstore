@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
 
 // get total cost
 orderSchema.methods.getTotalCost = function() {
-	CartItem.find({order: this._id})
+	return CartItem.find({order: this._id})
 	.then(function(items) {
 		return items.reduce(function(sum, nextItem) {
 			return sum + (nextItem.finalPrice * nextItem.quantity);
