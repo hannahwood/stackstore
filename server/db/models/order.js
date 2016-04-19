@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
@@ -11,8 +13,9 @@ const orderSchema = new mongoose.Schema({
 	},
 	status: {
 		required: true,
-		enum: ['created', 'processing', 'cancelled', 'completed']
+		enum: ['created', 'processing', 'shipped', 'cancelled', 'completed']
 	}
 });
 
 mongoose.model('Order', orderSchema);
+
