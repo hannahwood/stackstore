@@ -23,7 +23,7 @@ router.post('/', function(req,res,next) {
 });
 
 router.delete('/:userId',Auth.assertAdmin,  function(req,res,next) {
-  User.findByidAndRemove(req.params.userId)
+  User.findByIdAndRemove(req.params.userId)
   .then(() => res.status(204).end())
   .catch(next);
 });
