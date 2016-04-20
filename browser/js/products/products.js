@@ -1,5 +1,5 @@
-// ***** PRODUCTS *****
 'use strict';
+
 app.factory('ProductsFactory', function($http){
 	let ProductsFactory = {};
 
@@ -16,6 +16,7 @@ app.factory('ProductsFactory', function($http){
 	return ProductsFactory;
 });
 
+// ***** PRODUCTS (plural) *****
 app.config(function ($stateProvider) {
     $stateProvider.state('products', {
         url: '/products',
@@ -27,6 +28,22 @@ app.config(function ($stateProvider) {
         },
         controller: function($scope, ProductsFactory, allProducts) {
         	$scope.products = allProducts;
+        }
+    });
+});
+
+// ***** PRODUCT (single) *****
+app.config(function ($stateProvider) {
+    $stateProvider.state('product', {
+        url: '/products/' + productId,
+        templateUrl: 'js/products/product.html',
+        resolve: {
+            oneProduct: function(ProductsFactory){
+                return ProductsFactory.fetchOne();
+            }
+        },
+        controller: function($scope, ProductsFactory, oneProduct) {
+            $scope.product = oneProduct;
         }
     });
 });
