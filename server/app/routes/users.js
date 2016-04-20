@@ -4,28 +4,30 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
+router.param('userId', function(req, res, next, userId) {
+  User.findById(userId)
+  .then(function(user) {
+    if (!user) throw HttpError(404);
+    req.requestedUser = user;
+    next();
+  })
+  .catch(next);
+});
+
 router.get('/', Auth.assertAdmin, function(req,res,next) {
   User.find({})
   .then((users) => res.send(users))
   .catch(next);
 });
 
-// router.get('/', function(req,res,next) {
-//   console.log("REQ: ", req);
-//   console.log("REQ: ", req.session);
-//   User.find({})
-//   .then((users) => res.send(users))
+// router.get('/:userId', Auth.assertAdminOrSelf, function(req,res,next) {
+//   User.findById(req.params.userId)
+//   .then((user) => res.send(user))
 //   .catch(next);
 // });
 
-
-
-
-
-router.get('/:userId', Auth.assertAdminOrSelf, function(req,res,next) {
-  User.findById(req.params.userId)
-  .then((user) => res.send(user))
-  .catch(next);
+router.get('/:userId', Auth.assertAdminOrSelf, function(req, res) {
+  res.send(req.requestedUser);
 });
 
 router.post('/', function(req,res,next) {
