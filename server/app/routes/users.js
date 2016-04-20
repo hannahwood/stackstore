@@ -1,4 +1,6 @@
 'use strict';
+/*global HttpError */
+
 const Auth = require('../../utils/auth.middleware');
 const router = require('express').Router();
 const mongoose = require('mongoose');
@@ -16,23 +18,17 @@ router.param('userId', function(req, res, next, userId) {
 
 router.get('/', Auth.assertAdmin, function(req,res,next) {
   User.find({})
-  .then((users) => res.send(users))
+  .then((users) => res.json(users))
   .catch(next);
 });
 
-// router.get('/:userId', Auth.assertAdminOrSelf, function(req,res,next) {
-//   User.findById(req.params.userId)
-//   .then((user) => res.send(user))
-//   .catch(next);
-// });
-
 router.get('/:userId', Auth.assertAdminOrSelf, function(req, res) {
-  res.send(req.requestedUser);
+  res.json(req.requestedUser);
 });
 
 router.post('/', function(req,res,next) {
   User.create(req.body)
-  .then((user) => res.send(user))
+  .then((user) => res.json(user))
   .catch(next);
 });
 
@@ -48,7 +44,7 @@ router.put('/:userId',Auth.assertAdminOrSelf,  function(req,res,next) {
     user.set(req.body);
     return user.save();
   })
-  .then((user) => res.status(204).send(user))
+  .then((user) => res.status(204).json(user))
   .catch(next);
 });
 

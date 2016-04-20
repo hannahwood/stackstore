@@ -31,6 +31,7 @@ Auth.assertAdmin = Auth.assert(Auth.isAdmin);
 Auth.assertSelf = Auth.assert(Auth.isSelf);
 
 Auth.assertAdminOrSelf = Auth.assert(function (req) {
+  console.log('req:', req);
   return Auth.isAuthenticated(req) && (Auth.isAdmin(req) || Auth.isSelf(req));
 });
 

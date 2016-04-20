@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const CartItem = mongoose.model('CartItem');
+const Promise = require('Bluebird');
 
 const orderSchema = new mongoose.Schema({
 	user: {
@@ -31,16 +32,18 @@ orderSchema.methods.getTotalCost = function() {
 };
 
 orderSchema.methods.createItems = function(items){
+    const self = this;
 	// once order created, create cart items with order #
 	return Promise.map(items, function(item) {
-		CartItem.create({ 
-			order: this._id,
+		CartItem.create({
+			order: self._id,
 			quantity: item.quantity,
-			price: item.price
+			finalPrice: item.finalPrice,
+            product: item.product
 		});
 	})
 	.then(function() {
-		return this;
+		return self;
 	});
 };
 
