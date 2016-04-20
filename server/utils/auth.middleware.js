@@ -1,7 +1,5 @@
 'use strict';
 
-// var HttpError = require('./HttpError');
-
 var Auth = {};
 
 Auth.isAuthenticated = function (req) {
@@ -9,7 +7,6 @@ Auth.isAuthenticated = function (req) {
 };
 
 Auth.isAdmin = function (req) {
-  console.log(req);
   return req.user && req.user.type === 'Admin';
 };
 
