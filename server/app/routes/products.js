@@ -35,7 +35,7 @@ router.get('/:productId', function(req, res, next) {
 	.then(null, next);
 });
 
-// add one product
+// add one product (admin)
 router.post('/', function(req, res, next) {
 	Product.create(req.body)
 	.then(function(product) {
@@ -44,7 +44,7 @@ router.post('/', function(req, res, next) {
 	.then(null, next);
 });
 
-// edit one product
+// edit one product (admin)
 router.put('/:productId', function(req, res, next) {
 	Product.findById(req.params.productId)
 	.then(function(product) {
