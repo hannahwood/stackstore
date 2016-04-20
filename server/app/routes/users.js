@@ -10,6 +10,18 @@ router.get('/', Auth.assertAdmin, function(req,res,next) {
   .catch(next);
 });
 
+// router.get('/', function(req,res,next) {
+//   console.log("REQ: ", req);
+//   console.log("REQ: ", req.session);
+//   User.find({})
+//   .then((users) => res.send(users))
+//   .catch(next);
+// });
+
+
+
+
+
 router.get('/:userId', Auth.assertAdminOrSelf, function(req,res,next) {
   User.findById(req.params.userId)
   .then((user) => res.send(user))
@@ -23,7 +35,7 @@ router.post('/', function(req,res,next) {
 });
 
 router.delete('/:userId',Auth.assertAdmin,  function(req,res,next) {
-  User.findByidAndRemove(req.params.userId)
+  User.findByIdAndRemove(req.params.userId)
   .then(() => res.status(204).end())
   .catch(next);
 });
@@ -31,9 +43,7 @@ router.delete('/:userId',Auth.assertAdmin,  function(req,res,next) {
 router.put('/:userId',Auth.assertAdminOrSelf,  function(req,res,next) {
   User.findById(req.params.userId)
   .then(function(user) {
-    for (let key in req.body) {
-      user[key] = req.body[key];
-    }
+    user.set(req.body);
     return user.save();
   })
   .then((user) => res.status(204).send(user))
