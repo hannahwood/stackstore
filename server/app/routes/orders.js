@@ -42,7 +42,7 @@ router.get('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 	Order.create({ user: req.params.userId })
 	.then(function(order) {
-		order.createItems(req.body.items);
+		return order.createItems(req.body.items);
 	})
 	.then(function(order){
 		res.json(order);
