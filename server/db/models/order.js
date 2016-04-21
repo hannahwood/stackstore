@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const CartItem = mongoose.model('CartItem');
-const Promise = require('Bluebird');
+const Promise = require('bluebird');
 
 const orderSchema = new mongoose.Schema({
 	user: {
@@ -48,4 +48,3 @@ orderSchema.methods.createItems = function(items){
 };
 
 mongoose.model('Order', orderSchema);
-

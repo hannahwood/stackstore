@@ -32,13 +32,13 @@ router.post('/', function(req,res,next) {
   .catch(next);
 });
 
-router.delete('/:userId',Auth.assertAdmin,  function(req,res,next) {
+router.delete('/:userId', Auth.assertAdmin, function(req,res,next) {
   User.findByIdAndRemove(req.params.userId)
   .then(() => res.status(204).end())
   .catch(next);
 });
 
-router.put('/:userId',Auth.assertAdminOrSelf,  function(req,res,next) {
+router.put('/:userId', Auth.assertAdminOrSelf, function(req,res,next) {
   User.findById(req.params.userId)
   .then(function(user) {
     user.set(req.body);

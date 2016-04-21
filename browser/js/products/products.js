@@ -1,4 +1,5 @@
 'use strict';
+/*global app */
 
 app.factory('ProductsFactory', function($http){
 	let ProductsFactory = {};
@@ -35,11 +36,11 @@ app.config(function ($stateProvider) {
 // ***** PRODUCT (single) *****
 app.config(function ($stateProvider) {
     $stateProvider.state('product', {
-        url: '/products/' + productId,
+        url: '/products/:productId',
         templateUrl: 'js/products/product.html',
         resolve: {
-            oneProduct: function(ProductsFactory){
-                return ProductsFactory.fetchOne();
+            oneProduct: function(ProductsFactory, $stateParams){
+                return ProductsFactory.fetchOne($stateParams.productId);
             }
         },
         controller: function($scope, ProductsFactory, oneProduct) {
