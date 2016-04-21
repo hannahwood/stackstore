@@ -1,7 +1,7 @@
 <section id="products">
 <h2>all products</h2>
 <div ng-repeat='product in products'>
-	<h3>{{product.title}}</h3>
+	<h3><a ui-sref="product({ productId: product._id })">{{product.title}}</a></h3>
 	<div>
 		<p>{{product.description}}</p>
 	</div>
