@@ -1,7 +1,13 @@
-// ***** PRODUCTS *****
 'use strict';
-app.factory('ProductsFactory', function($http) {
-    let ProductsFactory = {};
+// <<<<<<< HEAD
+// app.factory('ProductsFactory', function($http) {
+//     let ProductsFactory = {};
+// =======
+/*global app */
+
+app.factory('ProductsFactory', function($http){
+	let ProductsFactory = {};
+// >>>>>>> master
 
     ProductsFactory.fetchAll = function() {
         return $http.get('/api/products')
@@ -16,7 +22,12 @@ app.factory('ProductsFactory', function($http) {
     return ProductsFactory;
 });
 
-app.config(function($stateProvider) {
+// <<<<<<< HEAD
+// app.config(function($stateProvider) {
+// =======
+// ***** PRODUCTS (plural) *****
+app.config(function ($stateProvider) {
+// >>>>>>> master
     $stateProvider.state('products', {
         url: '/products',
         templateUrl: 'js/products/products.html',
@@ -58,3 +69,44 @@ app.config(function($stateProvider) {
         }
     });
 });
+// <<<<<<< HEAD
+// =======
+
+// ***** PRODUCT (single) *****
+app.config(function ($stateProvider) {
+    $stateProvider.state('product', {
+        url: '/products/:productId',
+        templateUrl: 'js/products/product.html',
+        controller: 'ProductCtrl',
+        resolve: {
+            productAndReviews: function(ProductsFactory, $stateParams){
+                return ProductsFactory.fetchOne($stateParams.productId);
+            }
+        }
+    });
+});
+
+app.controller('ProductCtrl', function($scope, productAndReviews) {
+    $scope.product = productAndReviews.product;
+    $scope.reviews = productAndReviews.reviews;
+    $scope.quantity = 1;
+    $scope.addToCart = function(qty) {
+        let item = {
+            product: $scope.product, // object with all product properties
+            quantity: qty
+        };
+        let cart = [];
+
+        if(!localStorage.getItem('cart')) {
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+    };
+});
+
+// >>>>>>> master

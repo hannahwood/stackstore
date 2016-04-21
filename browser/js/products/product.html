@@ -1,0 +1,24 @@
+<section id="product">
+<div>
+	<h2>{{product.title}}</h2>
+	<div>
+		<p>{{product.description}}</p>
+		<p>{{product.price | currency:"$":2}}</p>
+		<form>
+                <div id="add-to-cart">
+                    <div class="input-item">
+                    
+                        <label for="qty">Qty:</label>
+                        <button ng-click="quantity = quantity - 1" ng-disabled="quantity <= 0"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+                        <input  ng-model="quantity" type="text" value=1 name="qty" id="qty" title="Qty"/>
+                        <button ng-click="quantity = quantity + 1"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                    </div>
+                </div>
+                <div class="product add-to-cart">
+
+                	<input type="submit" name="Add to Cart" value="Add to Cart" ng-click='addToCart(quantity)' title="Add to Cart">
+                </div>
+            </form>
+	</div>
+</div>
+</section>

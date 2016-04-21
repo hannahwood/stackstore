@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 
 var schema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
@@ -52,8 +56,8 @@ var schema = new mongoose.Schema({
     phoneNum: String,
     type: {
         type: String,
-        enum: ['Admin', 'User', 'Guest'],
-        default: 'Guest'
+        enum: ['Admin', 'User'],
+        default: 'User'
     }
 });
 
