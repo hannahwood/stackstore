@@ -1,3 +1,34 @@
+
+<nav>
+    <div class="container second-nav tabbable">
+        <ul class="nav nav-tabs">
+            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
+                <a ng-click='setCategory(item.name)' ng-class="{active: isActive(item.name)}">{{item.name}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<section id="container">
+    <div id="products">
+        <div ng-repeat='product in products'>
+            <li ng-show='checkCategory(product.category)' ui-sref="product({ productId: product._id })" class="product thumbnail">
+                <div class="image">
+                    <img src="http://oakstreetbootmakers.com/media/catalog/product/cache/1/small_image/302x302/9df78eab33525d08d6e5fb8d27136e95/b/o/boat-brown_1.jpg" alt="" />
+                    <div>{{product.title}}<br /><strong>{{ product.price | currency:"$":2}}</strong></div>
+                </div>
+                <hr>
+                <div>Details:
+                    <p>{{ product.description }}</p>
+                </div>
+                <div>
+                    <!-- <button ng-click='detailFn(product)' class='btn details'>details</button> -->
+                    <!-- <button class='btn cart'>add to cart</button> -->
+                </div>
+            </li>
+        </div>
+    </div>
+</section>
+<!-- =======
 <section id="products">
 <h2>all products</h2>
 <div ng-repeat='product in products'>
@@ -7,3 +38,4 @@
 	</div>
 </div>
 </section>
+>>>>>>> master -->
