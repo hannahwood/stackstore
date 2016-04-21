@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
 
 // get one product by id 
 router.get('/:productId', function(req, res, next) {
+	console.log("hit the product route");
 	Product.findById(req.params.productId)
 	.then(function(product) {
 		res.json(product);

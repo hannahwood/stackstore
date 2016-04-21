@@ -1,0 +1,38 @@
+<section id="items">
+<h2>your cart</h2>
+<table>
+	<tr>
+		<th>
+			<h3>Product</h3>
+		</th>
+		<th>
+			<h3>Quantity</h3>
+		</th>
+		<th>
+			<h3>Price</h3>
+		</th>
+		<th>
+			<h3>Remove</h3>
+		</th>
+	</tr>
+	<tr ng-repeat='item in items'>
+		<td>
+			<p>
+				<a ui-sref="product({ productId: item.product._id })">{{item.product.title}}</a>
+			</p>
+		</td>
+		<td>
+			<p>{{item.quantity}}</p>
+		</td>
+		<td>
+			<p>{{item.product.price * item.quantity}}
+		</td>
+		<td>
+			<input type="submit" name="remove item" value="remove item" ng-click= "removeItem(item.product._id)" title="remove item">
+		</td>
+	</tr>
+	<tr>
+
+	</tr>
+</table>
+</section>

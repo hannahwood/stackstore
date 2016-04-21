@@ -3,6 +3,17 @@
 	<h2>{{product.title}}</h2>
 	<div>
 		<p>{{product.description}}</p>
+		<form>
+                <div id="add-to-cart">
+                    <div class="input-item">
+                        <label for="qty">Qty:</label>
+                        <input  ng-model="quantity" type="text" value=1 name="qty" id="qty" title="Qty"/>
+                    </div>
+                </div>
+                <div class="product add-to-cart">
+                	<input type="submit" name="Add to Cart" value="Add to Cart" ng-click='addToCart(quantity)' title="Add to Cart">
+                </div>
+            </form>
 	</div>
 </div>
 </section>
