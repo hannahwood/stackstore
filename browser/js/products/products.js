@@ -1,4 +1,5 @@
 'use strict';
+/*global app */
 
 app.factory('ProductsFactory', function($http){
 	let ProductsFactory = {};
@@ -42,7 +43,7 @@ app.config(function ($stateProvider) {
             oneProduct: function(ProductsFactory, $stateParams){
                 return ProductsFactory.fetchOne($stateParams.productId);
             }
-        } 
+        }
     });
 });
 
@@ -56,7 +57,7 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
             quantity: qty
         };
         let cart = [];
-        
+
         if(!localStorage.getItem('cart')) {
             cart.push(item);
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -67,6 +68,5 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
         }
 
     };
-    
-
 });
+
