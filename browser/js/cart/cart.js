@@ -10,12 +10,14 @@ app.config(function ($stateProvider) {
 
 app.controller('CartCtrl', function($scope){
 	
-	console.log(JSON.parse(localStorage.getItem('cart')));
-
     $scope.items = JSON.parse(localStorage.getItem('cart')) || [];
 
-    $scope.removeItem = function(id) {
-    	// do stuff
+    $scope.removeItem = function(id, items) {
+        items = items.filter(function(elem) {
+            return elem.product._id !== id;
+        });
+
+    $scope.items = JSON.parse(localStorage.getItem('cart')) || [];
     };
 
 });
