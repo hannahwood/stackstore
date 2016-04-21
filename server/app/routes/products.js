@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
 router.get('/:productId', function(req, res, next) {
 	let responseObject = {};
 
-    Product.findById(req.params.productId)
+	Product.findById(req.params.productId)
 	.then(function(product) {
         responseObject.product = product;
         return product._id;
