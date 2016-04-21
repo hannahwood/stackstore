@@ -50,10 +50,19 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
 
     $scope.product = oneProduct;
     $scope.quantity = 1;
+
+    let isPresent = function(arr, id){
+        let contains = arr.filter(function(elem){
+            return elem.product._id === id;
+        });
+        return contains.length > 0 ? true : false;
+
+    };
+
     $scope.addToCart = function(qty) {
         let item = {
             product: $scope.product, // object with all product properties
-            quantity: qty
+            quantity: $scope.quantity
         };
         let cart = [];
         
@@ -61,9 +70,20 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
             cart.push(item);
             localStorage.setItem('cart', JSON.stringify(cart));
         } else {
+            
             cart = JSON.parse(localStorage.getItem('cart'));
-            cart.push(item);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            if (isPresent(cart, item.product._id) === true) {
+                cart.forEach(function(elem){
+                    if (elem.product._id === item.product._id) {
+                        elem.quantity += $scope.quantity;
+                    }
+
+                });
+                localStorage.setItem('cart', JSON.stringify(cart));
+            } else {
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
         }
 
     };
