@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 app.config(function ($stateProvider) {
     $stateProvider.state('cart', {
@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 });
 
 app.controller('CartCtrl', function($scope){
-	
+
 
     $scope.items = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -17,9 +17,9 @@ app.controller('CartCtrl', function($scope){
         $scope.items = $scope.items.filter(function(elem) {
             return elem.product._id !== id;
         });
-        
-    localStorage.setItem('cart', JSON.stringify(items));
-        
+
+    localStorage.setItem('cart', JSON.stringify($scope.items));
+
     };
 
 });
