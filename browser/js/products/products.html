@@ -1,4 +1,3 @@
-
 <nav>
     <div class="container second-nav tabbable">
         <ul class="nav nav-tabs">
@@ -13,8 +12,8 @@
         <div ng-repeat='product in products'>
             <li ng-show='checkCategory(product.category)' ui-sref="product({ productId: product._id })" class="product thumbnail">
                 <div class="image">
-                    <img src="http://oakstreetbootmakers.com/media/catalog/product/cache/1/small_image/302x302/9df78eab33525d08d6e5fb8d27136e95/b/o/boat-brown_1.jpg" alt="" />
-                    <div>{{product.title}}<br /><strong>{{ product.price | currency:"$":2}}</strong></div>
+                    <img src="{{product.photo}}" alt="" />
+                    <div><strong>{{product.title}}</strong><br />{{ product.price | currency:"$":2}}</div>
                 </div>
                 <hr>
                 <div>Details:

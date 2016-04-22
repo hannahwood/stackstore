@@ -11,8 +11,10 @@ navbar {
     padding-top: 20px;
   }
   #cart {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+    margin-left: 30px;
+    cursor: pointer;
     // float: right;
   }
   #cart:hover {

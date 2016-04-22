@@ -15,6 +15,12 @@
         list-style-type: none;
     }
 }
+.tabbable {
+    a {
+        
+    cursor: pointer;
+    }
+}
 
 .product {
     .image {
@@ -41,18 +47,19 @@
         }
     }
     position: relative;
-    // margin: auto;
-    // width: 250px;
-    // text-align: top;
     padding: 10px;
     .top {
         padding-bottom: 10px;
     }
     p {
-        white-space: nowrap;
+        // white-space: nowrap;
+        font-size: 9pt;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         width: 300px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow-multiline: ellipsis;
         font-style: italic;
     }
     button {
@@ -74,19 +81,13 @@
 }
 
 .second-nav {
-	padding-top: 10px;
+    padding-top: 10px;
     a {
         color: gray;
     }
     a:hover {
         text-decoration: none;
         border-color: none;
-    }
-    .nav {
-        // display: block;
-        // background: white;
-        // border-bottom: 1px solid black;
-        // box-shadow: 1px 1px 14px -3px black;
     }
     .active {
         background-color: #EDEDED;
