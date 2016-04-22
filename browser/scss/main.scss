@@ -1,9 +1,18 @@
 * {
   box-sizing: border-box;
 }
+html {
+  // font-family: font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+}
 
 body {
-  background: #fdfdfd;
+  // background: #fdfdfd;
+  background: #E5E5E5;
+  font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+}
+
+p {
+  font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
 }
 
 @mixin clearfix {
@@ -14,8 +23,25 @@ body {
   }
 }
 
+.btn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  // font-family: Arial;
+  // color: #ffffff;
+  font-size: 14px;
+  padding: 8px 20px 8px 20px;
+  border: solid #1f628d 2px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #C4C4C4;
+  text-decoration: none;
+}
+
 #main {
-  padding-top: 60px;
+  // padding-top: 60px;
   margin: 0 auto;
 }
 
@@ -24,3 +50,7 @@ body {
 @import 'about/main';
 @import 'tutorial/main';
 @import 'login/main';
+@import 'products/main';
+@import 'product/main';
+
+// @import 'bootstrap';

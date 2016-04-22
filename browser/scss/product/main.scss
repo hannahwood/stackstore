@@ -1,0 +1,104 @@
+#product {
+    padding-top: 20px;
+    img {
+        // padding-top: 20px;
+    }
+    h2,
+    label,
+    h5, li {
+        padding-left: 20px;
+    }
+    li {
+    	display: inline;
+    	font-size: 9pt;
+    	// padding-left: 10px;
+    }
+    h5,
+    label, li, #submit{
+        font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+        font-weight: normal;
+    }
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 1em 0;
+        padding: 0;
+    }
+    #right {
+        // background-color: white;
+        // border: 1px solid black;
+        // height: 300px;
+        // width: 50%;
+        padding-right: 30px;
+    }
+    #submit {
+    	border: 1px solid black;
+        padding: 10px 60px 10px;
+        background: #FF977B;
+        transition: transform .3s ease;
+        transform: scale(1.0);
+        font-size: 14pt;
+        // padding-left: 20px;
+        // padding-right: 20px;
+    }
+    #submit:hover {
+        background: #F15A29;
+        transition: transform .5s ease;
+        transform: scale(1.1);
+    }
+    button {
+        border: 0px solid black;
+        margin-top: 10px;
+        outline: none !important;
+    }
+    button:hover {
+        background-color: #90D695;
+    }
+    #back {
+        color: #6178FF;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    #back:hover {
+        color: blue;
+    }
+    .item {
+        padding-top: 10px;
+        padding-left: 30px;
+        // background-color: white;
+    }
+    p {
+        margin-left: 20px;
+        font-size: 9pt;
+        color: #001593;
+    }
+    #description {
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-bottom: 30px;
+    }
+    // h2 {
+    // 	text-align: center;
+    // 	padding-bottom: 20px;
+    // }
+    .add-to-cart {
+    	// float: right;
+        padding-top: 20px;
+        text-align: center;
+    }
+    #qty {
+        width: 40px;
+        font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+    }
+}
+
+// to remove the arrows in the input form
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}

@@ -3,22 +3,10 @@ const router = require('express').Router();
 module.exports = router;
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
-const Auth = require('../../utils/auth.middleware')
+const Review = mongoose.model('Review');
+const Auth = require('../../utils/auth.middleware');
 
-/*
-get all products 
-	GET /
-get one product by id 
-	GET /:productId
-
-ADMIN:
-add one product
-	POST /
-edit one product
-	PUT /:productId
-*/
-
-// get all products 
+// get all products
 router.get('/', function(req, res, next) {
 	Product.find({})
 	.then(function(products) {
@@ -27,13 +15,22 @@ router.get('/', function(req, res, next) {
 	.then(null, next);
 });
 
-// get one product by id 
+// get one product by id
 router.get('/:productId', function(req, res, next) {
-	console.log("hit the product route");
+	let responseObject = {};
+
 	Product.findById(req.params.productId)
 	.then(function(product) {
-		res.json(product);
+        responseObject.product = product;
+        return product._id;
 	})
+    .then(function(productId) {
+        return Review.find({product: productId}).exec();
+    })
+    .then(function(reviews) {
+        responseObject.reviews = reviews;
+        res.json(responseObject);
+    })
 	.then(null, next);
 });
 
@@ -58,4 +55,3 @@ router.put('/:productId', Auth.assertAdmin, function(req, res, next) {
 	})
 	.then(null, next);
 });
-

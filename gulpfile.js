@@ -1,4 +1,5 @@
 'use strict';
+
 // All used modules.
 var gulp = require('gulp');
 var babel = require('gulp-babel');
@@ -94,7 +95,9 @@ gulp.task('buildCSS', function () {
         .pipe(plumber({
             errorHandler: notify.onError('SASS processing failed! Check your gulp process.')
         }))
+        .pipe(sourcemaps.init())
         .pipe(sassCompilation)
+        .pipe(sourcemaps.write())
         .pipe(rename('style.css'))
         .pipe(gulp.dest('./public'));
 });

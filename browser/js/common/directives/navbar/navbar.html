@@ -8,7 +8,10 @@
                 <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
             </li>
         </ul>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+        <div id="right-side">
+            <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+            <img ui-sref="cart" id='cart' src="http://image005.flaticon.com/3/png/512/2/2772.png">
+        </div>
         <div ng-show="user" class="welcome">
             <span>Welcome, {{ user.email }}!</span>
             <a ng-click="logout()">Logout</a>

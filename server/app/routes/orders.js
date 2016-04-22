@@ -1,4 +1,7 @@
 'use strict';
+/*global HttpError */
+
+const Auth = require('../../utils/auth.middleware');
 const router = require('express').Router();
 module.exports = router;
 const mongoose = require('mongoose');
@@ -6,25 +9,19 @@ const Order = mongoose.model('Order');
 const User = mongoose.model('User');
 const CartItem = mongoose.model('CartItem');
 
-/*
-show one order 
-	GET /:userId/:orderId
-show users orders
-	GET /:userId
-create new order
-	POST /:userId
-
-
-ADMIN:
-show all orders
-	GET /
-edit one order
-	PUT /:userId/:orderId
-*/
-
+// Saves the document associated with the requested user to the req object.
+router.param('userId', function(req, res, next, userId) {
+  User.findById(userId)
+  .then(function(user) {
+    if (!user) throw HttpError(404);
+    req.requestedUser = user;
+    next();
+  })
+  .catch(next);
+});
 
 //show all items in one order
-router.get('/:userId/:orderId', function(req, res, next) {
+router.get('/:userId/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
 	CartItem.find({order: req.params.orderId})
 	.then(function(items) {
 		res.json(items);
@@ -33,7 +30,7 @@ router.get('/:userId/:orderId', function(req, res, next) {
 });
 
 //show users orders
-router.get('/:userId', function(req, res, next) {
+router.get('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 	Order.find({user: req.params.userId})
 	.then(function(orders) {
 		res.json(orders);
@@ -42,10 +39,10 @@ router.get('/:userId', function(req, res, next) {
 });
 
 //create new order
-router.post('/:userId', function(req, res, next) {
+router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 	Order.create({ user: req.params.userId })
 	.then(function(order) {
-		order.createItems(req.body.items);
+		return order.createItems(req.body.items);
 	})
 	.then(function(order){
 		res.json(order);
@@ -54,17 +51,16 @@ router.post('/:userId', function(req, res, next) {
 });
 
 //get all orders (admin)
-router.get('/', function(req, res, next) {
-	console.log('got here!')
+router.get('/', Auth.assertAdmin, function(req, res, next) {
 	Order.find({})
 	.then(function(orders){
-		// res.json(orders);
+	   res.json(orders);
 	})
 	.then(null, next);
 });
 
 //edit one order (admin)
-router.put('/:userId/:orderId', function(req, res, next) {
+router.put('/:userId/:orderId', Auth.assertAdmin, function(req, res, next) {
 	Order.findById(req.params.orderId)
 	.then(function(order){
 		order.set(req.body);
