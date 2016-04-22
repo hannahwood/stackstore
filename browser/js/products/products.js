@@ -1,9 +1,4 @@
 'use strict';
-// <<<<<<< HEAD
-// app.factory('ProductsFactory', function($http) {
-//     let ProductsFactory = {};
-// =======
-/*global app */
 
 app.factory('ProductsFactory', function($http){
 	let ProductsFactory = {};
@@ -22,12 +17,7 @@ app.factory('ProductsFactory', function($http){
     return ProductsFactory;
 });
 
-// <<<<<<< HEAD
-// app.config(function($stateProvider) {
-// =======
-// ***** PRODUCTS (plural) *****
 app.config(function ($stateProvider) {
-// >>>>>>> master
     $stateProvider.state('products', {
         url: '/products',
         templateUrl: 'js/products/products.html',
@@ -38,6 +28,7 @@ app.config(function ($stateProvider) {
         },
         controller: function($scope, ProductsFactory, allProducts) {
             $scope.products = allProducts;
+            console.log(allProducts);
             $scope.decimal = function(int) {
                 return int.toFixed(2);
             };
@@ -69,10 +60,7 @@ app.config(function ($stateProvider) {
         }
     });
 });
-// <<<<<<< HEAD
-// =======
 
-// ***** PRODUCT (single) *****
 app.config(function ($stateProvider) {
     $stateProvider.state('product', {
         url: '/products/:productId',
@@ -109,4 +97,3 @@ app.controller('ProductCtrl', function($scope, productAndReviews) {
     };
 });
 
-// >>>>>>> master
