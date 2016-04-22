@@ -1,43 +1,59 @@
-<section id="items">
-<h2>your cart</h2>
-<table>
-	<tr>
-		<th>
-			<h3>Product</h3>
-		</th>
-		<th>
-			<h3>Quantity</h3>
-		</th>
-		<th>
-			<h3>Price</h3>
-		</th>
-		<th>
-			<h3>Remove</h3>
-		</th>
-	</tr>
-	<tr ng-repeat='item in items'>
-		<td>
-			<p>
-				<a ui-sref="product({ productId: item.product._id })">{{item.product.title}}</a>
-			</p>
-		</td>
-		<td>
-			<p>{{item.quantity}}</p>
-		</td>
-		<td>
-			<p>{{item.product.price * item.quantity | currency:"$":2}}
-		</td>
-		<td>
-			<input type="submit" name="remove item" value="remove item" ng-click= "removeItem(item.product._id, items)" title="remove item">
-		</td>
-	</tr>
-	<tr>
-		<td>total:
-		</td>
-		<td>
-		</td>
-		<td>put total here
-		</td>
-	</tr>
-</table>
+<section class="container" id="cart-page">
+    <p id="back" ui-sref='products'><- back to all products</p>
+    <hr>
+    <div id="items">
+        <h4>You have <font color="red">{{ quantityTotal() }}</font> {{ item() }} for a total of <font color="red">{{ priceTotal() | currency:"$":2 }}</font> in your shopping cart.</h4>
+        <table class="col-sm-6">
+            <tr>
+                <th>
+                    <h3>Product</h3>
+                </th>
+                <th>
+                    <h3>Quantity</h3>
+                </th>
+                <th>
+                    <h3>Price</h3>
+                </th>
+                <th>
+                    <h3></h3>
+                </th>
+            </tr>
+            <tr ng-repeat='item in items'>
+                <td>
+                    <p>
+                        <a ui-sref="product({ productId: item.product._id })">{{item.product.title}}</a>
+                        <div class="image">
+                            <img src="{{item.product.photo}}" alt="" />
+                        </div>
+                    </p>
+                </td>
+                <td>
+                    <p>{{item.quantity}}</p>
+                </td>
+                <td>
+                    <p>{{item.product.price * item.quantity | currency:"$":2}}
+                </td>
+                <td>
+                    <!-- <input id="remove" type="submit" name="remove item" value=" x " ng-click="removeItem(item.product._id, items)" title="remove item">
+                    remove item -->
+                    <button id="remove" type="submit" ng-click="removeItem(item.product._id, items)" class="glyphicon glyphicon-remove-sign"></button> <font color='gray' size='2'>remove item</font>
+                </td>
+            </tr>
+            <tr id="last-line">
+                <td>total:
+                </td>
+                <td>{{ quantityTotal() }} {{ item() }}
+                </td>
+                <td>{{ priceTotal() | currency:"$":2 }}
+                </td>
+                <td>
+                    <button ng-disabled="items.length < 1" type="submit" ng-click="removeAll()" class="glyphicon glyphicon-remove-sign"></button> remove all
+                </td>
+            </tr>
+        </table>
+    	<div >
+    		<button ui-sref='checkout' id="submit" type="submit" name="Proceed to Checkout" value="Proceed to Checkout" title="Proceed to Checkout">Proceed to Checkout</button> or
+    		<button ui-sref='products' id="submit shopping" type="submit" name="Continue Shopping" value="Continue Shopping" title="Continue Shopping">Continue Shopping</button>
+    	</div>
+    </div>
 </section>
