@@ -38,16 +38,15 @@ router.get('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 	.then(null, next);
 });
 
-//create new order
+//create new order STOPPING HERE 4/22/2016
 router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
-	Order.create({ user: req.params.userId })
-	.then(function(order) {
-		return order.createItems(req.body.items);
-	})
-	.then(function(order){
-		res.json(order);
-	})
-	.then(null,next);
+  console.log(req.body.items,'******');
+
+	Order.create({ user: req.params.userId }).then(function(order) {
+    order.createItems(req.body.items).then(function(self) {
+      return self;
+    });
+  });
 });
 
 //get all orders (admin)
