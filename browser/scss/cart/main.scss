@@ -1,6 +1,7 @@
     #cart-page {
         background-color: white;
         padding-top: 20px;
+        width: 1000px;
         hr {
             display: block;
             height: 1px;
@@ -26,22 +27,23 @@
     
     #items {
         // background-color: white;
+        // text-align: center;
         margin-top: 10px;
         padding: 10px 40px 80px 40px;
         #center {
-        	// display: inline-block;
-        	text-align: center;
-        	vertical-align: baseline;
+            text-align: center;
+            vertical-align: baseline;
         }
         h4 {
-            // text-align: center;
             margin-bottom: 30px;
             font-style: italic;
         }
         table {
-            width: auto;
+            width: 800px;
             background-color: white;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
+            margin-left: auto;
+            margin-right: auto;
             #last-line {
                 background-color: #C1C1C1;
             }
@@ -66,10 +68,8 @@
             color: white;
         }
         button {
-            // background-color: white;
             border: 0px solid black;
             margin-top: 10px;
-            // width: 30px;
             outline: none !important;
         }
         #remove {
@@ -79,22 +79,20 @@
             opacity: .6;
         }
         #remove:hover {
-            // background: #F15A29;
             transition: transform .3s ease;
             transform: scale(1.2);
             opacity: 1;
         }
         #submit {
-        	margin: 10px;
-        	background: #FF977B;
+            margin: 10px;
+            background: #FF977B;
             transition: transform .2s ease;
             transform: scale(1.0);
-            width: auto;
             border-bottom: 3px solid #cc4a00;
             border-right: 3px solid #cc4a00;
             letter-spacing: .8px;
             border-radius: 5px;
-            width: 200px;
+            width: 230px;
             padding: 10px;
         }
         #submit:hover {
@@ -103,26 +101,25 @@
             transform: scale(1.06);
         }
         #shopping {
-        	background: #BC83F2;
-        	margin: 10px;
-        	// background: #FF977B;
+            background: #BCBCBC;
+            margin: 10px;
+            // background: #FF977B;
             transition: transform .2s ease;
             transform: scale(1.0);
-            width: auto;
-            border-bottom: 3px solid #660FBA;
-            border-right: 3px solid #660FBA;
+            border-bottom: 3px solid #7F7F7F;
+            border-right: 3px solid #7F7F7F;
             letter-spacing: .8px;
             border-radius: 5px;
-            width: 200px;
+            width: 230px;
             padding: 10px;
         }
         #shopping:hover {
-            background: #9238E8;
+            background: #9F9FA0;
             transition: transform .3s ease;
             transform: scale(1.06);
         }
         input {
-        	font-size: 8pt;
+            font-size: 8pt;
             background-color: #F1592A;
             color: white;
             border: 1px solid black;
