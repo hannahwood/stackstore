@@ -38,8 +38,8 @@ orderSchema.methods.createItems = function(items){
 		CartItem.create({
 			order: self._id,
 			quantity: item.quantity,
-			finalPrice: item.finalPrice,
-            product: item.product
+			finalPrice: item.product.price,
+      product: item.product._id
 		});
 	})
 	.then(function() {
