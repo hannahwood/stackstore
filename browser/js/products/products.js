@@ -59,6 +59,8 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
 
     };
 
+    let addLanguage = " item(s) added to cart";
+
     $scope.addToCart = function(qty) {
         let item = {
             product: $scope.product, // object with all product properties
@@ -69,9 +71,11 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
         if(!localStorage.getItem('cart')) {
             cart.push(item);
             localStorage.setItem('cart', JSON.stringify(cart));
+            $scope.added = item.quantity + addLanguage;
         } else {
             
             cart = JSON.parse(localStorage.getItem('cart'));
+            $scope.added = item.quantity + addLanguage;
             if (isPresent(cart, item.product._id) === true) {
                 cart.forEach(function(elem){
                     if (elem.product._id === item.product._id) {
@@ -80,9 +84,11 @@ app.controller('ProductCtrl', function($scope, oneProduct) {
 
                 });
                 localStorage.setItem('cart', JSON.stringify(cart));
+
             } else {
                 cart.push(item);
                 localStorage.setItem('cart', JSON.stringify(cart));
+                $scope.added = item.quantity + addLanguage;
             }
         }
 
