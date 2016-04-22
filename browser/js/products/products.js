@@ -78,20 +78,46 @@ app.controller('ProductCtrl', function($scope, productAndReviews) {
     $scope.product = productAndReviews.product;
     $scope.reviews = productAndReviews.reviews;
     $scope.quantity = 1;
+
+    let isPresent = function(arr, id){
+        let contains = arr.filter(function(elem){
+            return elem.product._id === id;
+        });
+        return contains.length > 0 ? true : false;
+
+    };
+
+    let addLanguage = " item(s) added to cart";
+
     $scope.addToCart = function(qty) {
         let item = {
             product: $scope.product, // object with all product properties
-            quantity: qty
+            quantity: $scope.quantity
         };
         let cart = [];
 
         if(!localStorage.getItem('cart')) {
             cart.push(item);
             localStorage.setItem('cart', JSON.stringify(cart));
+            $scope.added = item.quantity + addLanguage;
         } else {
+            
             cart = JSON.parse(localStorage.getItem('cart'));
-            cart.push(item);
-            localStorage.setItem('cart', JSON.stringify(cart));
+            $scope.added = item.quantity + addLanguage;
+            if (isPresent(cart, item.product._id) === true) {
+                cart.forEach(function(elem){
+                    if (elem.product._id === item.product._id) {
+                        elem.quantity += $scope.quantity;
+                    }
+
+                });
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+            } else {
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                $scope.added = item.quantity + addLanguage;
+            }
         }
 
     };

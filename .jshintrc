@@ -8,5 +8,6 @@
   "unused":    true,
   "onecase":   true,
   "lastsemic": true,
-  "esversion": 6
+  "esversion": 6,
+  "predef": [ "app", "localStorage" ]
 }

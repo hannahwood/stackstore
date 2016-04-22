@@ -28,6 +28,11 @@
         // background-color: white;
         margin-top: 10px;
         padding: 10px 40px 80px 40px;
+        #center {
+        	// display: inline-block;
+        	text-align: center;
+        	vertical-align: baseline;
+        }
         h4 {
             // text-align: center;
             margin-bottom: 30px;
@@ -98,7 +103,23 @@
             transform: scale(1.06);
         }
         #shopping {
-        	background: #7C3CAF;
+        	background: #BC83F2;
+        	margin: 10px;
+        	// background: #FF977B;
+            transition: transform .2s ease;
+            transform: scale(1.0);
+            width: auto;
+            border-bottom: 3px solid #660FBA;
+            border-right: 3px solid #660FBA;
+            letter-spacing: .8px;
+            border-radius: 5px;
+            width: 200px;
+            padding: 10px;
+        }
+        #shopping:hover {
+            background: #9238E8;
+            transition: transform .3s ease;
+            transform: scale(1.06);
         }
         input {
         	font-size: 8pt;

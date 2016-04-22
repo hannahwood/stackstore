@@ -34,9 +34,7 @@
                     <p>{{item.product.price * item.quantity | currency:"$":2}}
                 </td>
                 <td>
-                    <!-- <input id="remove" type="submit" name="remove item" value=" x " ng-click="removeItem(item.product._id, items)" title="remove item">
-                    remove item -->
-                    <button id="remove" type="submit" ng-click="removeItem(item.product._id, items)" class="glyphicon glyphicon-remove-sign"></button> <font color='gray' size='2'>remove item</font>
+                    <button id="remove" type="submit" ng-click="removeItem(item.product._id)" class="glyphicon glyphicon-remove-sign"></button> <font color='gray' size='2'>remove item</font>
                 </td>
             </tr>
             <tr id="last-line">
@@ -51,9 +49,11 @@
                 </td>
             </tr>
         </table>
-    	<div >
-    		<button ui-sref='checkout' id="submit" type="submit" name="Proceed to Checkout" value="Proceed to Checkout" title="Proceed to Checkout">Proceed to Checkout</button> or
-    		<button ui-sref='products' id="submit shopping" type="submit" name="Continue Shopping" value="Continue Shopping" title="Continue Shopping">Continue Shopping</button>
+        <hr>
+    	<div id="center">
+    		<button ui-sref='checkout' id="submit" type="submit" name="Proceed to Checkout" value="Proceed to Checkout" title="Proceed to Checkout">Proceed to Checkout <strong>({{ priceTotal() | currency:"$":2 }})</strong></button> 
+    		<p>or</p>
+    		<button ui-sref='products' id="shopping" type="submit" name="Continue Shopping" value="Continue Shopping" title="Continue Shopping">Continue Shopping</button>
     	</div>
     </div>
 </section>
