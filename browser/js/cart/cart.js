@@ -22,7 +22,7 @@ app.controller('CartCtrl', function($scope){
     $scope.priceTotal = function() {
         var total = 0;
         for (var i = 0; i < $scope.items.length; i++) {
-            total += $scope.items[i].product.price;
+            total += ($scope.items[i].product.price * $scope.items[i].quantity);
         }
         return total;
     };
