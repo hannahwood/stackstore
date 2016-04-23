@@ -44,7 +44,7 @@ router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 	Order.create({ user: req.params.userId })
   .then(function(order) {
     order.createItems(req.body).then(function(self) {
-      res.json(200);
+      res.json(self);
     })
   });
 });

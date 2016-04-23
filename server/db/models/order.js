@@ -33,28 +33,28 @@ orderSchema.methods.getTotalCost = function() {
 	});
 };
 
+
+
+orderSchema.methods.getTotalCost = function() {
+  const self = this;
+  return Promise.reduce(self.cartItems,function(sum, elem) {
+    return sum += elem.price * elem.quantity;
+  },0)
+  .then(function(sum) {
+    return sum;
+  })
+};
+
 //04/22/2016 ==> ADD IMMACULATE LOGIC TO CONVERT PRODUCT ITEMS TO CARTITEMS
 orderSchema.methods.createItems = function(items){
   const self = this;
 	return Promise.map(items, function(item) {
-    console.log("ITEM PUSHED");
 		self.cartItems.push({'price' : item.product.price, 'product' : item.product._id, 'quantity' : item.quantity});
 	})
 	.then(function() {
 		return self.save();
 	});
 };
-
-// orderSchema.methods.createItems = function(items){
-//   var self = this;
-//   var cartItemArray = items.map(function(elem) {
-//     var obj = {};
-//     obj.price = elem.product.price;
-//     obj.product = elem.product._id;
-//     obj.quantity = elem.quantity;
-//   });
-//   self.cartItems = obj;
-// };
 
 
 
