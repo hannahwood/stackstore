@@ -18,32 +18,27 @@ const orderSchema = new mongoose.Schema({
 		required: true,
 		enum: ['created', 'processing', 'shipped', 'cancelled', 'completed'],
 		default: 'created'
-	}
+	},
+  cartItems: [CartItem.schema]
 });
 
-// get total cost
 orderSchema.methods.getTotalCost = function() {
-	return CartItem.find({order: this._id})
-	.then(function(items) {
-		return items.reduce(function(sum, nextItem) {
-			return sum + (nextItem.finalPrice * nextItem.quantity);
-		}, 0);
-	});
+  const self = this;
+  return Promise.reduce(self.cartItems,function(sum, elem) {
+    return sum += elem.price * elem.quantity;
+  },0)
+  .then(function(sum) {
+    return sum;
+  });
 };
 
 orderSchema.methods.createItems = function(items){
-    const self = this;
-	// once order created, create cart items with order #
+  const self = this;
 	return Promise.map(items, function(item) {
-		CartItem.create({
-			order: self._id,
-			quantity: item.quantity,
-			finalPrice: item.finalPrice,
-            product: item.product
-		});
+		self.cartItems.push({'price' : item.product.price, 'product' : item.product._id, 'quantity' : item.quantity});
 	})
 	.then(function() {
-		return self;
+		return self.save();
 	});
 };
 
