@@ -20,7 +20,7 @@
                     </button>
                     <p ng-show="(product.invQuantity <= quantity)"><font color='red'>Only {{ product.invQuantity }} left in stock</font></p>
                     <span ng-show="isAdmin">INVENTORY QUANTITY: {{ product. invQuantity}}</span>
-                     <button ng-show="isAdmin">edit item</button>
+                    <button ng-show="isAdmin"> <a ui-sref='editProduct({productId: product._id})'/>Edit Product</button>
                 </div>
             </div>
         </form>
