@@ -23,7 +23,7 @@ const orderSchema = new mongoose.Schema({
   cartItems: [CartItem.schema]
 });
 
-// get total co
+// get total cost
 orderSchema.methods.getTotalCost = function() {
 	return CartItem.find({order: this._id})
 	.then(function(items) {
@@ -33,21 +33,29 @@ orderSchema.methods.getTotalCost = function() {
 	});
 };
 
-// 04/22/2016 ==> ADD IMMACULATE LOGIC TO CONVERT PRODUCT ITEMS TO CARTITEMS
+//04/22/2016 ==> ADD IMMACULATE LOGIC TO CONVERT PRODUCT ITEMS TO CARTITEMS
 orderSchema.methods.createItems = function(items){
-    const self = this;
-	// once order created, create cart items with order #
+  const self = this;
 	return Promise.map(items, function(item) {
-		CartItem.create({
-			order: self._id,
-			quantity: item.quantity,
-			finalPrice: item.product.price,
-      product: item.product._id
-		});
+    console.log("ITEM PUSHED");
+		self.cartItems.push({'price' : item.product.price, 'product' : item.product._id, 'quantity' : item.quantity});
 	})
 	.then(function() {
-		return self;
+		return self.save();
 	});
 };
+
+// orderSchema.methods.createItems = function(items){
+//   var self = this;
+//   var cartItemArray = items.map(function(elem) {
+//     var obj = {};
+//     obj.price = elem.product.price;
+//     obj.product = elem.product._id;
+//     obj.quantity = elem.quantity;
+//   });
+//   self.cartItems = obj;
+// };
+
+
 
 mongoose.model('Order', orderSchema);

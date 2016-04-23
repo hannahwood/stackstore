@@ -40,12 +40,12 @@ router.get('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
 
 //create new order STOPPING HERE 4/22/2016
 router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
-  console.log(req.body.items,'******');
-
-	Order.create({ user: req.params.userId }).then(function(order) {
-    order.createItems(req.body.items).then(function(self) {
-      return self;
-    });
+  // console.log(req.body,'******');
+	Order.create({ user: req.params.userId })
+  .then(function(order) {
+    order.createItems(req.body).then(function(self) {
+      res.json(200);
+    })
   });
 });
 
