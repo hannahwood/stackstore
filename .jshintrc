@@ -9,5 +9,12 @@
   "onecase":   true,
   "lastsemic": true,
   "esversion": 6,
-  "predef": [ "app", "localStorage" ]
+  "predef": [
+              "app",
+              "localStorage",
+              "describe",
+              "afterEach",
+              "it",
+              "beforeEach"
+            ]
 }

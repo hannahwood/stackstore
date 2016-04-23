@@ -1,3 +1,5 @@
+'use strict';
+
 var dbURI = 'mongodb://localhost:27017/testingDB';
 var clearDB = require('mocha-mongoose')(dbURI);
 
@@ -42,12 +44,9 @@ describe('Order model', function () {
 
             it('should be able to calculate values', function () {
                 newOrder.getTotalCost().then(function(cost) {
-                    console.log("COST", cost);
                     expect(cost).to.be.equal(10);
                 });
             });
-
-
         });
     });
 });
