@@ -35,6 +35,7 @@
             width: 100%;
         }
         img {
+            width: 300px;
             padding-bottom: 5px;
             opacity: 0.5;
             transition: transform .5s ease;
@@ -52,7 +53,7 @@
         padding-bottom: 10px;
     }
     p {
-        // white-space: nowrap;
+        color: #001593;
         font-size: 9pt;
         display: -webkit-box;
         -webkit-line-clamp: 2;

@@ -25,7 +25,7 @@ router.param('reviewId', function(req, res, next, reviewId) {
 
 router.post('/', Auth.assertAuthenticated, function(req, res, next) {
     Review.create(req.body) // Body must include product, user, and rating keys. May include title and description keys.
-    .then(review => res.json(review))
+    .then(review => res.send(review))
     .then(null, next);
 });
 
