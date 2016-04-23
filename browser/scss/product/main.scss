@@ -1,14 +1,19 @@
 #product {
     padding-top: 20px;
+    img {
+        max-width: 400px;
+    }
     h2 {
         padding-left: 20px;
     }
     li {
-    	display: inline;
-    	font-size: 9pt;
+        display: inline;
+        font-size: 9pt;
     }
     h5,
-    label, li, #submit{
+    label,
+    li,
+    #submit, {
         font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
         font-weight: normal;
         padding-left: 20px;
@@ -25,17 +30,22 @@
         padding-right: 30px;
     }
     #submit {
-    	border: 1px solid black;
-        padding: 10px 60px 10px;
+        float: right;
+        margin: 10px;
         background: #FF977B;
-        transition: transform .3s ease;
+        transition: transform .2s ease;
         transform: scale(1.0);
-        font-size: 14pt;
+        border-bottom: 3px solid #cc4a00;
+        border-right: 3px solid #cc4a00;
+        letter-spacing: .8px;
+        border-radius: 5px;
+        width: 230px;
+        padding: 10px;
     }
     #submit:hover {
         background: #F15A29;
-        transition: transform .5s ease;
-        transform: scale(1.1);
+        transition: transform .3s ease;
+        transform: scale(1.04);
     }
     button {
         border: 0px solid black;
@@ -66,6 +76,32 @@
     #qty {
         width: 40px;
         font-family: “Helvetica Neue”, Helvetica, Arial, sans-serif;
+    }
+    .reviews {
+        background-color: white;
+        margin: 30px;
+        padding: 35px;
+        h6 {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .review-button {
+            float: right;
+        margin: 10px;
+        background: #FFEC00;
+        transition: transform .2s ease;
+        transform: scale(1.0);
+        border-bottom: 3px solid #DBCB00;
+        border-right: 3px solid #DBCB00;
+        border-radius: 5px;
+        width: 100px;
+        padding: 3px;
+        }
+        li {
+            padding-left: 0;
+            margin-bottom: 15px;
+            display: inline;
+        }
     }
 }
 
