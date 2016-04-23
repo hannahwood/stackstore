@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
 	},
 	category: {
 		type: [String],
-		enum: ['books', 'clothing', 'bric-a-brac', 'crap'],// all category options
+		// enum: ['books', 'clothing', 'bric-a-brac', 'crap'],// all category options
 		required: true,
 		validate: {
 			validator: function(arr) {

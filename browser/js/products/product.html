@@ -15,13 +15,13 @@
                         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                     </button>
                     <input ng-model="quantity" min="1" type="number" value=1 name="qty" id="qty" title="Qty" />
-                    <button ng-click="quantity = quantity + 1">
+                    <button ng-disabled="product.invQuantity <= quantity" ng-click="quantity = quantity + 1">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </button>
+                    <p ng-show="(product.invQuantity <= quantity)"><font color='red'>Only {{ product.invQuantity }} left in stock</font></p>
+                    <span ng-show="isAdmin">INVENTORY QUANTITY: {{ product. invQuantity}}</span>
+                     <button ng-show="isAdmin">edit item</button>
                 </div>
-            </div>
-            <div class="product add-to-cart">
-                <button ui-sref='cart' id="submit" type="submit" name="Add to Cart" value="Add to Cart" ng-click='addToCart()' title="Add to Cart">Add to Cart</button>
             </div>
         </form>
           <hr>
@@ -31,8 +31,31 @@
           <li ng-repeat='category in product.category'>
               <strong>{{category}}</strong>
           </li>
-      </div><!-- closes class='col-sm-6' -->
-    </div> <!-- closes class="item" -->
+          <div class="product add-to-cart">
+                <button ui-sref='cart' ng-disabled="!(quantity > 0) || (product.invQuantity < quantity)" id="submit" type="submit" ng-click='addToCart()' title="Add to Cart">Add ({{quantity}}) to Cart</button>
+            </div>
+          </div><!-- closes class='col-sm-6' -->
+        </div> <!-- closes class="item" -->
+
+        <section class="col-sm-12">
+         <div class="reviews">
+         <button ng-hide="!user.type" class="review-button" ui-sref='review({ productId: product._id })'>add review</button>
+         <h4>Customer Reviews for {{product.title}}</h4>
+         <hr>
+          <ul ng-repeat='review in reviews'>
+            <h6>{{review.title}}</h6>
+            <li ng-repeat="n in [] | range:review.rating">
+              <span class="glyphicon glyphicon-star"></span>
+            </li>
+            <li ng-repeat="n in [] | range:(5 -review.rating)">
+              <span class="glyphicon glyphicon-star-empty"></span>
+            </li>
+            <p>{{review.description}}</p>
+              <button ng-click="deleteReview(review._id)"ng-show="isAdmin">delete review</button>
+            <hr>
+        </ul>
+       </div>
+    </section>
   </div> <!-- closes class="container" -->
 </section>
 

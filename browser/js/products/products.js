@@ -1,8 +1,7 @@
 'use strict';
 
-app.factory('ProductsFactory', function($http){
-	let ProductsFactory = {};
-// >>>>>>> master
+app.factory('ProductsFactory', function($http, AuthService) {
+    let ProductsFactory = {};
 
     ProductsFactory.fetchAll = function() {
         return $http.get('/api/products')
@@ -14,24 +13,33 @@ app.factory('ProductsFactory', function($http){
             .then(response => response.data);
     };
 
+    ProductsFactory.getUser = function() {
+        return AuthService.getLoggedInUser()
+            .then(function(user) {
+                return user || { type: null };
+            });
+    };
     return ProductsFactory;
 });
 
-app.config(function ($stateProvider) {
+app.config(function($stateProvider) {
     $stateProvider.state('products', {
         url: '/products',
         templateUrl: 'js/products/products.html',
         resolve: {
             allProducts: function(ProductsFactory) {
                 return ProductsFactory.fetchAll();
+            },
+            currentUser: function(ReviewFactory) {
+                return ReviewFactory.getUser();
             }
         },
-        controller: function($scope, ProductsFactory, allProducts) {
+        controller: function($scope, ProductsFactory, allProducts, currentUser) {
             $scope.products = allProducts;
-            console.log(allProducts);
-            $scope.decimal = function(int) {
-                return int.toFixed(2);
-            };
+            $scope.user = currentUser;
+
+            $scope.isAdmin = currentUser.type == 'Admin';
+
             $scope.items = [
                 { name: 'All', state: 'products', label: '' },
                 { name: 'Books', state: 'products', label: 'books' },
@@ -42,7 +50,6 @@ app.config(function ($stateProvider) {
             $scope.currentCategory = 'All';
 
             $scope.setCategory = function(name) {
-                console.log(name);
                 $scope.currentCategory = name;
                 $scope.activeMenu = name;
             };
@@ -60,66 +67,3 @@ app.config(function ($stateProvider) {
         }
     });
 });
-
-app.config(function ($stateProvider) {
-    $stateProvider.state('product', {
-        url: '/products/:productId',
-        templateUrl: 'js/products/product.html',
-        controller: 'ProductCtrl',
-        resolve: {
-            productAndReviews: function(ProductsFactory, $stateParams){
-                return ProductsFactory.fetchOne($stateParams.productId);
-            }
-        }
-    });
-});
-
-app.controller('ProductCtrl', function($scope, productAndReviews) {
-    $scope.product = productAndReviews.product;
-    $scope.reviews = productAndReviews.reviews;
-    $scope.quantity = 1;
-
-    let isPresent = function(arr, id){
-        let contains = arr.filter(function(elem){
-            return elem.product._id === id;
-        });
-        return contains.length > 0 ? true : false;
-
-    };
-
-    let addLanguage = " item(s) added to cart";
-
-    $scope.addToCart = function(qty) {
-        let item = {
-            product: $scope.product, // object with all product properties
-            quantity: $scope.quantity
-        };
-        let cart = [];
-
-        if(!localStorage.getItem('cart')) {
-            cart.push(item);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            $scope.added = item.quantity + addLanguage;
-        } else {
-            
-            cart = JSON.parse(localStorage.getItem('cart'));
-            $scope.added = item.quantity + addLanguage;
-            if (isPresent(cart, item.product._id) === true) {
-                cart.forEach(function(elem){
-                    if (elem.product._id === item.product._id) {
-                        elem.quantity += $scope.quantity;
-                    }
-
-                });
-                localStorage.setItem('cart', JSON.stringify(cart));
-
-            } else {
-                cart.push(item);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                $scope.added = item.quantity + addLanguage;
-            }
-        }
-
-    };
-});
-
