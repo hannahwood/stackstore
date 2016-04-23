@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const cartSchema = new mongoose.Schema({
-  finalPrice: {
+  price: {
     type: Number,
     required: true
   },
@@ -18,10 +18,6 @@ const cartSchema = new mongoose.Schema({
   },
   product: {
     type: mongoose.Schema.ObjectId, ref: 'Product',
-    required: true
-  },
-  order: {
-    type: mongoose.Schema.ObjectId, ref: 'Order',
     required: true
   }
 });

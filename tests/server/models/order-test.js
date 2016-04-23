@@ -36,13 +36,14 @@ describe('Order model', function () {
 
             it('should be able to add items', function () {
                 newOrder.createItems(itemArray).then(function(self) {
-                    expect(self).to.be.equal(newOrder);
+                    expect(self.createItems.length).to.be.equal(1);
                 });
             });
 
             it('should be able to calculate values', function () {
                 newOrder.getTotalCost().then(function(cost) {
-                    expect(cost).to.be.equal('10.00');
+                    console.log("COST", cost);
+                    expect(cost).to.be.equal(10);
                 });
             });
 

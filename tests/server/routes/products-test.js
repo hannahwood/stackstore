@@ -62,20 +62,28 @@ describe('Products Route', function() {
 
 		beforeEach('make sample client', function() {
 			sampleClient = supertest.agent(app);
-			
+
 		});
 
 
 		it('should return one product', function(done) {
 			sampleClient.get('/api/products/' + product1._id)
-			.expect(200)
-			.end(done);
+      .expect(200)
+			.end(function(err, res) {
+        if (err) return done(err);
+        expect(res.body.product.title === 'duck')
+        done();
+      });
 		});
 
 		it('should return all products', function(done) {
 			sampleClient.get('/api/products')
 			.expect(200)
-			.end(done);
+			.end(function(err, res) {
+        if (err) return done(err);
+        expect(res.body.length).to.equal(2);
+        done();
+      });
 		});
 	});
 
