@@ -17,20 +17,10 @@ router.get('/', function(req, res, next) {
 
 // get one product by id
 router.get('/:productId', function(req, res, next) {
-	let responseObject = {};
-
-	Product.findById(req.params.productId)
-	.then(function(product) {
-        responseObject.product = product;
-        return product._id;
+	Product.getProductDataById(req.params.productId) //getProductDataById returns an obj with 'product', 'review', and 'category' keys
+	.then(function(responseObj) {
+        res.json(responseObj);
 	})
-    .then(function(productId) {
-        return Review.find({product: productId}).exec();
-    })
-    .then(function(reviews) {
-        responseObject.reviews = reviews;
-        res.json(responseObject);
-    })
 	.then(null, next);
 });
 
