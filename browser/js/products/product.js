@@ -29,33 +29,19 @@ app.factory('ProductReviewFactory', function($http) {
     return ProductReviewFactory;
 });
 
-app.factory('ProductEditFactory', function($http) {
-    let ProductEditFactory = {};
-
-    ProductEditFactory.editProduct = function(product) {
-        return $http.put('/api/products/' + product._id)
-            .then(function(response) {
-            return response.data;
-        });
-    };
-
-    return ProductEditFactory;
-});
-
-
 app.controller('ProductCtrl', function($scope, productAndReviews, ProductsFactory, currentUser, ProductReviewFactory) {
     $scope.product = productAndReviews.product;
     $scope.reviews = productAndReviews.reviews;
     $scope.user = currentUser;
     $scope.isUser = currentUser.type !== null;
-    $scope.isAdmin = currentUser.type == 'Admin';
+    $scope.isAdmin = currentUser.type === 'Admin';
     $scope.quantity = 1;
 
     $scope.deleteReview = function(id) {
         ProductReviewFactory.removeReview(id)
         .then(function() {
             for (var i = 0; i < $scope.reviews.length; i++) {
-                if (id == $scope.reviews[i]._id) {
+                if (id === $scope.reviews[i]._id) {
                     $scope.reviews.splice(i, 1);
                     break;
                 }
@@ -67,7 +53,7 @@ app.controller('ProductCtrl', function($scope, productAndReviews, ProductsFactor
 
     // $scope.review.rating = 5;
     $scope.reviews.getNumber = function(num) {
-        return new Array(num);   
+        return new Array(num);
     };
 
     let isPresent = function(arr, id) {
