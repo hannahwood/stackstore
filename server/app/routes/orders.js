@@ -12,7 +12,11 @@ const CartItem = mongoose.model('CartItem');
 router.param('userId', function(req, res, next, userId) {
     User.findById(userId)
     .then(function(user) {
-        if (!user) throw HttpError(404);
+        if (!user) {
+            let err = new Error('User not found');
+            err.status = 404;
+            throw err;
+        }
         req.requestedUser = user;
         next();
     })
