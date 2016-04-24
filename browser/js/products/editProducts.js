@@ -15,7 +15,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.factory('editProductFactory', function($http) {
+app.factory('editProductFactory', function($http, ProductsFactory) {
     return {
         fetchProduct: function(productId) {
             return $http.get('/api/products/' + productId)
@@ -24,14 +24,23 @@ app.factory('editProductFactory', function($http) {
         submitChange: function(currentProduct) {
             if (typeof currentProduct.category === 'string') currentProduct.category = currentProduct.category.split(',');
             return $http.put('/api/products/' + currentProduct._id, currentProduct)
-            .then(response => response.data);
+            .then(response => response.data)
+            .then(product => {
+                ProductsFactory.addToAllCategories(product.category); // Keeps track of any new categories created by the admin on the front-end
+                return product;
+            });
+        },
+        getAllCategories: function() {
+            return ProductsFactory.getAllCategories()
+            .filter(category => category.name !== 'All') // Makes sure the admin can't assign a new product to the 'All' category
+            .map(category => category.name); // Only exposes the category name strings to the html instead of an object.
         }
     };
 });
 
 app.controller('ProductEditCtrl', function ($scope, $state, productInfo, editProductFactory,$log) {
     $scope.currentProduct = productInfo.product;
-    $scope.categories = productInfo.categories; // This in an array of all possible categories, not just those currently assigned to this product.
+    $scope.categories = editProductFactory.getAllCategories(); // This in an array of all possible categories, not just those currently assigned to this product.
     $scope.submitChange = function() {
         editProductFactory.submitChange($scope.currentProduct)
         .then(product => $state.go('product', {productId: product._id}))

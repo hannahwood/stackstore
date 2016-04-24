@@ -30,8 +30,8 @@ const productSchema = new mongoose.Schema({
 		}
 	},
 	photo: {
-		type: String
-		// default: 'https://hr-avatars.s3.amazonaws.com/2af1ef57-b9d2-4528-8f50-57569e36c3ed/150x150.png' // some filler image
+		type: String,
+        default: 'https://hr-avatars.s3.amazonaws.com/2af1ef57-b9d2-4528-8f50-57569e36c3ed/150x150.png' // some filler image
 	}
 });
 
@@ -45,13 +45,23 @@ productSchema.statics.getCategories = function() {
     }, []));
 };
 
-// Returns a promise for a response object populated with a product document, all reviews related to the product, and all current product categories
-productSchema.statics.getProductDataById = function(productId) {
+productSchema.statics.getAllProductsAndCategories = function() {
     let responseObj = {};
 
     return this.getCategories()
     .then(categories => responseObj.categories = categories)
-    .then(() => this.findById(productId))
+    .then(() => this.find())
+    .then(products => {
+        responseObj.products = products;
+        return responseObj;
+    });
+};
+
+// Returns a promise for a response object populated with a product document and all reviews related to the product
+productSchema.statics.getProductDataById = function(productId) {
+    let responseObj = {};
+
+    return this.findById(productId)
     .then(product => {
         responseObj.product = product;
         return product;
