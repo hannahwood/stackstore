@@ -20,7 +20,7 @@
                     </button>
                     <p ng-show="(product.invQuantity <= quantity)"><font color='red'>Only {{ product.invQuantity }} left in stock</font></p>
                     <span ng-show="isAdmin">INVENTORY QUANTITY: {{ product. invQuantity}}</span>
-                     <button ng-show="isAdmin">edit item</button>
+                    <button ng-show="isAdmin" <a ui-sref='editProduct({productId: product._id})'>Edit Product</button>
                 </div>
             </div>
         </form>
@@ -39,7 +39,7 @@
 
         <section class="col-sm-12">
          <div class="reviews">
-         <button ng-hide="!user.type" class="review-button" ui-sref='review({ productId: product._id })'>add review</button>
+         <button ng-hide="!user.type" class="review-button" ui-sref='review({ productId: product._id })'>Add Review</button>
          <h4>Customer Reviews for {{product.title}}</h4>
          <hr>
           <ul ng-repeat='review in reviews'>
