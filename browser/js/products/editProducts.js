@@ -7,7 +7,7 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/products/editProduct.html',
         controller: 'ProductEditCtrl',
         resolve: {
-            currentProduct: function($stateParams, editProductFactory) {
+            productInfo: function($stateParams, editProductFactory) {
                 return editProductFactory.fetchProduct($stateParams.productId);
             }
         }
@@ -19,24 +19,22 @@ app.factory('editProductFactory', function($http) {
     return {
         fetchProduct: function(productId) {
             return $http.get('/api/products/' + productId)
-            .then(response => response.data.product);
+            .then(response => response.data);
         },
         submitChange: function(currentProduct) {
-            currentProduct.category = currentProduct.category.split(',');
-            console.dir(currentProduct.category);
+            if (typeof currentProduct.category === 'string') currentProduct.category = currentProduct.category.split(',');
             return $http.put('/api/products/' + currentProduct._id, currentProduct)
-            .then( response => response.data);
+            .then(response => response.data);
         }
     };
 });
 
-app.controller('ProductEditCtrl', function ($scope, $state, currentProduct, editProductFactory,$log) {
-    $scope.currentProduct = currentProduct;
-    console.log('currentProduct:', currentProduct);
+app.controller('ProductEditCtrl', function ($scope, $state, productInfo, editProductFactory,$log) {
+    $scope.currentProduct = productInfo.product;
+    $scope.categories = productInfo.categories; // This in an array of all possible categories, not just those currently assigned to this product.
     $scope.submitChange = function() {
         editProductFactory.submitChange($scope.currentProduct)
-        .then(response => console.log('RESPONSE:', response))
+        .then(product => $state.go('product', {productId: product._id}))
         .catch($log.error);
     };
 });
-
