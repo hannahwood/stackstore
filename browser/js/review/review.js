@@ -38,7 +38,7 @@ app.controller('ReviewCtrl', function($state, $scope, productAndReviews, current
 
     $scope.user = currentUser;
 
-    $scope.isAdmin = currentUser.type == 'Admin';
+    $scope.isAdmin = currentUser.type === 'Admin';
 
     $scope.submitReview = function() {
         ReviewFactory.createReview({
@@ -48,8 +48,9 @@ app.controller('ReviewCtrl', function($state, $scope, productAndReviews, current
             description: $scope.review.description,
             rating: $scope.review.rating
         })
-        .then(function() {
-            $state.go('products');
+        .then(function(review) {
+            console.log("review", review);
+            $state.go('product', {productId: $scope.product._id, newReview: review});
         });
     };
 

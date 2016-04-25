@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        required: true
+        sparse: true
     },
     password: {
         type: String

@@ -14,7 +14,7 @@
             <img ui-sref="cart" id='cart' src="http://image005.flaticon.com/3/png/512/2/2772.png">
         </div>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
+            <span>Welcome, {{ user.email || user.name }}!</span>
             <a ng-click="logout()">Logout</a>
         </div>
     </div>

@@ -5,6 +5,9 @@ app.config(function($stateProvider) {
         url: '/products/:productId',
         templateUrl: 'js/products/product.html',
         controller: 'ProductCtrl',
+        params: {
+            newReview: null
+        },
         resolve: {
             productAndReviews: function(ProductsFactory, $stateParams) {
                 return ProductsFactory.fetchOne($stateParams.productId);
@@ -29,14 +32,15 @@ app.factory('ProductReviewFactory', function($http) {
     return ProductReviewFactory;
 });
 
-app.controller('ProductCtrl', function($scope, productAndReviews, ProductsFactory, currentUser, ProductReviewFactory) {
+app.controller('ProductCtrl', function($scope, $state, productAndReviews, ProductsFactory, currentUser, ProductReviewFactory) {
     $scope.product = productAndReviews.product;
     $scope.reviews = productAndReviews.reviews;
     $scope.user = currentUser;
     $scope.isUser = currentUser.type !== null;
     $scope.isAdmin = currentUser.type === 'Admin';
     $scope.quantity = 1;
-
+    $scope.newReview = $state.params.newReview;
+    console.log("newReview: ", $scope.newReview);
     $scope.deleteReview = function(id) {
         ProductReviewFactory.removeReview(id)
         .then(function() {
@@ -55,6 +59,24 @@ app.controller('ProductCtrl', function($scope, productAndReviews, ProductsFactor
     $scope.reviews.getNumber = function(num) {
         return new Array(num);
     };
+
+// needed for tweeting review
+window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));
 
     let isPresent = function(arr, id) {
         let contains = arr.filter(function(elem) {
