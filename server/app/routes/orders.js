@@ -6,6 +6,8 @@ module.exports = router;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
 
 // Saves the document associated with the requested user to the req object.
 // This enables the Auth middleware to work.
