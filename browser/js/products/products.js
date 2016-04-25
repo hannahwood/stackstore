@@ -26,6 +26,37 @@ app.factory('ProductsFactory', function($http, AuthService) {
             });
     };
 
+    ProductsFactory.isValid = function(cartArr) {
+        console.log(cartArr);
+        let promisesForResponses = cartArr.map(item => $http.get('/api/products/' + item.product._id));
+        let arrayOfAlerts = [];
+
+        return Promise.all(promisesForResponses)
+        .then(responses => responses.map(response => response.data.product))
+        .then(arrOfProducts => {
+            console.log('arrOfProducts', arrOfProducts);
+            arrOfProducts.forEach(function(product, idx) {
+                if (product.price !== cartArr[idx].price) {
+                    cartArr[idx].product.price = product.price;
+                    arrayOfAlerts.push('Price for ' + product.title + ' has changed.');
+                }
+                if (product.invQuantity < cartArr[idx].quantity) {
+                    cartArr[idx].quantity = product.invQuantity;
+                    arrayOfAlerts.push('Quantity for ' + product.title + ' has changed');
+                }
+            });
+            return arrayOfAlerts;
+        });
+
+
+
+
+        return $http.get('/api/product/' + item._id)
+            .then(function(product) {
+                item.price = product.price;
+            });
+    };
+
     ProductsFactory.getAllCategories = () => allCategories.map(category => ({name: category}));
 
     ProductsFactory.addToAllCategories = function(array) {
