@@ -4,66 +4,62 @@ const Auth = require('../../utils/auth.middleware');
 const router = require('express').Router();
 module.exports = router;
 const mongoose = require('mongoose');
-const Order = mongoose.model('Order');
 const User = mongoose.model('User');
-const CartItem = mongoose.model('CartItem');
+const Order = mongoose.model('Order');
 
 // Saves the document associated with the requested user to the req object.
-router.param('userId', function(req, res, next, userId) {
-    User.findById(userId)
-    .then(function(user) {
-        if (!user) throw HttpError(404);
-        req.requestedUser = user;
-        next();
-    })
-    .catch(next);
+// This enables the Auth middleware to work.
+router.use(function(req, res, next) {
+    if(req.query.user) req.requestedUser = req.query.user;
+    next();
 });
 
-//show all items in one order
-router.get('/:userId/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
-    CartItem.find({order: req.params.orderId})
-    .then(function(items) {
-        res.json(items);
-    })
+// Get all orders (admin only)
+router.get('/', function(req, res, next) {
+    if (req.query.user) next(); // If req.query.user is present, use the next route (see below)
+    if (!Auth.isAdmin(req)) next(new Error("Not Authenticated")); // If the user isn't an admin, throw an auth error.
+    Order.find()
+    .then(orders => res.json(orders))
     .then(null, next);
 });
 
-//show users orders
-router.get('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
-    Order.find({user: req.params.userId})
-    .then(function(orders) {
-        res.json(orders);
-    })
+// Get all orders for one user.
+// This route catches requests that the 'Get all orders' route passes to next()
+// because the request had a req.query.user param.
+router.get('/', Auth.assertAdminOrSelf, function(req, res, next) {
+    Order.find({user: req.query.user})
+    .then(orders => res.json(orders))
     .then(null, next);
 });
 
-router.post('/:userId', Auth.assertAdminOrSelf, function(req, res, next) {
-    Order.create({ user: req.params.userId })
-    .then(function(order) {
-        order.createItems(req.body).then(function(self) {
-            res.json(self);
-        });
-    })
-    .then(null, next);
-});
-
-//get all orders (admin)
-router.get('/', Auth.assertAdmin, function(req, res, next) {
-    Order.find({})
-    .then(function(orders){
-        res.json(orders);
-    })
-    .then(null, next);
-});
-
-//edit one order (admin)
-router.put('/:userId/:orderId', Auth.assertAdmin, function(req, res, next) {
+// Get one order
+router.get('/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
     Order.findById(req.params.orderId)
-    .then(function(order){
+    .populate('cartItems')
+    .then(order => res.json(order))
+    .then(null, next);
+});
+
+// Create a new order.
+// Note the req body must contain a user key and a cart key.
+// Look at the static in user.js for more information.
+router.post('/', function(req, res, next) {
+    User.findOrCreateOrUpdateUser(req.body.user)
+    .then(user => Order.create({user: user._id}))
+    .then(order => order.createItems(req.body.cart))
+    .then(order => res.json(order))
+    .then(null, next);
+});
+
+// Edit an order (admin only)
+router.put('/:orderId', Auth.assertAdmin, function(req, res, next) {
+    Order.findById(req.params.orderId)
+    .then(order => {
         order.set(req.body);
         return order.save();
     })
-    .then(function(order){
+    .then(order => {
+        console.log('order after save:', order);
         res.json(order);
     })
     .then(null, next);

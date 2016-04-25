@@ -11,7 +11,6 @@ app.factory('ReviewFactory', function($http, AuthService) {
     ReviewFactory.getUser = function() {
         return AuthService.getLoggedInUser()
             .then(function(user) {
-                console.log('user', user);
                 return user || { type: null };
             });
     };
@@ -29,7 +28,6 @@ app.config(function($stateProvider) {
                 return ProductsFactory.fetchOne($stateParams.productId);
             },
             currentUser: function(ReviewFactory) {
-                console.log('promise', ReviewFactory.getUser());
                 return ReviewFactory.getUser();
             }
         }

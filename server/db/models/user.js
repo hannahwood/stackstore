@@ -10,8 +10,8 @@ var schema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        unique: true,
+        required: true
     },
     password: {
         type: String
@@ -96,5 +96,27 @@ schema.statics.encryptPassword = encryptPassword;
 schema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
+
+/*
+The findOrCreateOrUpdateUser static returns a promise for a found user, a new user, or an updated user.
+The "userObj" passed into the static is the req.body.user object.
+Note the userObj should contain key-value pairs that reflect
+information inputted by the user while they were checking out.
+This information could include their shipping address, or a phone number.
+This static will find a user (if they exist), update their information
+to reflect the inputs made by the user during checkout, and returns a promise for that updated user.
+Otherwise the static will create a new user and return a promise for the created user. This
+enables guests to create orders.
+*/
+schema.statics.findOrCreateOrUpdateUser = function(userObj) {
+    return this.findOne({email: userObj.email}) // Find by e-mail because even guest users will be required to submit their e-mail address
+    .then(user => {
+        if (user) {
+            user.set(userObj);
+            return user.save();
+        }
+        return this.create(userObj);
+    });
+};
 
 mongoose.model('User', schema);

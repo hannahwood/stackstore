@@ -101,6 +101,10 @@
             });
         };
 
+        this.signup = function (signUpInfo) {
+            return $http.post('/signup', signUpInfo);
+        };
+
     });
 
     app.service('Session', function ($rootScope, AUTH_EVENTS) {

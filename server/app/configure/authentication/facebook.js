@@ -7,6 +7,7 @@ var UserModel = mongoose.model('User');
 module.exports = function (app) {
 
     var facebookConfig = app.getValue('env').FACEBOOK;
+    console.log('facebookConfig:', facebookConfig);
 
     var facebookCredentials = {
         clientID: facebookConfig.clientID,
@@ -15,7 +16,7 @@ module.exports = function (app) {
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-
+        console.log('profile', profile);
         UserModel.findOne({ 'facebook.id': profile.id }).exec()
             .then(function (user) {
 
@@ -36,7 +37,7 @@ module.exports = function (app) {
             .catch(function (err) {
                 console.error('Error creating user from Facebook authentication', err);
                 done(err);
-            })
+            });
 
     };
 

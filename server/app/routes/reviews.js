@@ -1,5 +1,4 @@
 'use strict';
-/*global HttpError */
 
 const router = require('express').Router();
 module.exports = router;
@@ -13,7 +12,11 @@ const Auth = require('../../utils/auth.middleware');
 router.param('reviewId', function(req, res, next, reviewId) {
   Review.findById(reviewId)
   .then(function(review) {
-    if (!review) throw HttpError(404);
+    if (!review) {
+      let err = new Error('Review not found');
+      err.status = 404;
+      throw err;
+    }
     return User.findById(review.user);
 })
   .then(function(user) {
