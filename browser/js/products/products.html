@@ -1,0 +1,31 @@
+<nav>
+    <div class="container second-nav tabbable">
+        <ul class="nav nav-tabs">
+            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
+                <a ng-click='setCategory(item.name)' ng-class="{active: isActive(item.name)}">{{item.name}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<section id="container">
+    <button ng-show="isAdmin" <a ui-sref='createProduct'>Create New Product</button>
+    <div id="products">
+        <div ng-repeat='product in products'>
+            <li ng-show='checkCategory(product.category)' ui-sref="product({ productId: product._id })" class="product thumbnail">
+                <div class="image">
+                    <img src="{{product.photo}}" alt="" />
+                    <div><strong>{{product.title}}</strong><br />{{ product.price | currency:"$":2}}</div>
+                </div>
+                <hr>
+                <div>Details:
+                    <p>{{ product.description }}</p>
+                </div>
+                <div>
+                    <!-- <button ng-click='detailFn(product)' class='btn details'>details</button> -->
+                    <!-- <button class='btn cart'>add to cart</button> -->
+                </div>
+            </li>
+        </div>
+    </div>
+</section>
+
