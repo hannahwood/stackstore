@@ -22,7 +22,8 @@ module.exports = function (app) {
                 username: profile.username,
                 token: token,
                 tokenSecret: tokenSecret
-            }
+            },
+            name: profile.displayName
         });
     };
 
@@ -38,8 +39,11 @@ module.exports = function (app) {
 
     var verifyCallback = function (token, tokenSecret, profile, done) {
 
+        console.log('**PROFILE**',  profile);
+
         UserModel.findOne({'twitter.id': profile.id}).exec()
             .then(function (user) {
+                console.log('**USER IN DB**', user);
                 if (user) { // If a user with this twitter id already exists.
                     return updateUserCredentials(user, token, tokenSecret, profile);
                 } else { // If this twitter id has never been seen before and no user is attached.
