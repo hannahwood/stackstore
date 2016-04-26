@@ -1,0 +1,39 @@
+<section class="container" id="cart-page">
+    <p id="back" ui-sref='products'><- back to shopping!</p>
+    <hr>
+    <div id="items">
+        <h4>Orders here</h4>
+        <table>
+            <tr>
+                <th>
+                    <h5>Order ID</h5>
+                </th>
+                <th>
+                    <h5>Date Placed</h5>
+                </th>
+                <th>
+                    <h5>Customer Name</h5>
+                </th>
+                <th>
+                    <h5>Status</h5>
+                </th>
+            </tr>
+            <tr ng-repeat='order in allOrders'>
+                <td>
+                    <p>
+                      <h4>{{order._id}}</h4>
+                    </p>
+                </td>
+                <td>
+                    <h4>{{order.date}}</h4>
+                </td>
+                <td>
+                    <p>{{order.user.name}}</p>
+                </td>
+                <td>
+                    <p>{{order.status}}</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
