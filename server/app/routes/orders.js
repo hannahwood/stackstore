@@ -63,50 +63,42 @@ router.get('/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
 // Note the req body must contain a user key and a cart key.
 // Look at the static in user.js for more information.
 router.post('/', function(req, res, next) {
-    User.findOrCreateOrUpdateUser(req.body.user)
-    .then(user => Order.create({user: user._id}))
-    .then(order => order.createItems(req.body.cart))
-    .then(function(order) {
-        // res.json(order);
-        return order;
-    })   
-    .then(function(order){
-        // send confirmation e-mail
-        transporter.sendMail({
-            from: 'upcycleny@yahoo.com',
-            to: req.body.user.email,
-            subject: 'Thank you for your Upcycle order!',
-            text: 'Thank you for your order!\n' +
-                  'You\'re confirmation number is ' + order._id + '\n\n' +
-                  'Please do not hesitate to contact us, if you have any questions.  We live to upcycle and serve!'
-        }, function(error, response) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Message sent', response);
-        }
-    });
-    })
-    .then(null, next);
-
     var stripeToken = req.body.token;
     var charge = stripe.charges.create({
-      amount: req.body.cost, // amount in cents, again
-      currency: "usd",
-      source: stripeToken,
-      description: "Example charge",
-      receipt_email: req.body.email
+        amount: req.body.cost, // amount in cents, again
+        currency: "usd",
+        source: stripeToken,
+        description: "Example charge",
+        receipt_email: req.body.email
     }, function(err, charge) {
-      if (err && err.type === 'StripeCardError') {
-        console.log(err);
-    }
-    else {
-        User.findOrCreateOrUpdateUser(req.body.user)
-        .then(user => Order.create({user: user._id}))
-        .then(order => order.createItems(req.body.cart))
-        .then(order => res.json(order))
-        .then(null, next);
-    }
+        if (err && err.type === 'StripeCardError') {
+            console.log(err);
+        }
+        else {
+            User.findOrCreateOrUpdateUser(req.body.user)
+            .then(user => Order.create({user: user._id}))
+            .then(order => order.createItems(req.body.cart))
+            .then(order => res.json(order))
+            .then(function(order){
+
+                // send confirmation e-mail
+                transporter.sendMail({
+                    from: 'upcycleny@yahoo.com',
+                    to: req.body.user.email,
+                    subject: 'Thank you for your Upcycle order!',
+                    text: 'Thank you for your order!\n' +
+                          'You\'re confirmation number is ' + order._id + '\n\n' +
+                          'Please do not hesitate to contact us, if you have any questions.  We live to upcycle and serve!'
+                }, function(error, response) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Message sent', response);
+                    }
+                });
+            })
+            .then(null, next);
+        }
     });
 });
 
