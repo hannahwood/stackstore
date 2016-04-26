@@ -9,6 +9,7 @@
 </nav>
 <section id="container">
     <button ng-show="isAdmin" <a ui-sref='createProduct'>Create New Product</button>
+    <button ng-show="isAdmin" <a ui-sref='allOrders'>View All orders</button>
     <div id="products">
         <div ng-repeat='product in products'>
             <li ng-show='checkCategory(product.category)' ui-sref="product({ productId: product._id })" class="product thumbnail">

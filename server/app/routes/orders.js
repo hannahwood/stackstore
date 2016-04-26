@@ -37,7 +37,7 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res, next) {
     if (req.query.user) next(); // If req.query.user is present, use the next route (see below)
     if (!Auth.isAdmin(req)) next(new Error("Not Authenticated")); // If the user isn't an admin, throw an auth error.
-    Order.find()
+    Order.find().populate('user','name')
     .then(orders => res.json(orders))
     .then(null, next);
 });
