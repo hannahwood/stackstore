@@ -36,7 +36,6 @@ app.factory('UserFactory', function($http) {
 app.controller('UserProfileCtrl', function($log, $scope, UserFactory, user, orders) {
     $scope.user = user;
     $scope.orders = orders;
-    console.log(orders[0].date);
     $scope.editTheUser = function() {
         UserFactory.editUser($scope.user)
         .then(() => alert('Thank you. Your changes have been saved.'))

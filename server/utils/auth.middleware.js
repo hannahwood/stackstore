@@ -11,7 +11,8 @@ Auth.isAdmin = function (req) {
 };
 
 Auth.isSelf = function (req) {
-  return req.user.equals(req.requestedUser);
+  if (!req.requestedUser) return false;
+  return req.user._id.equals(req.requestedUser._id);
 };
 
 Auth.assert = function (assertion, status) {

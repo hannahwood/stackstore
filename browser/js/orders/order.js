@@ -40,8 +40,7 @@ app.factory('CartOrderFactory', function($http, ProductsFactory) {
         formatDate: order => order.date.split("T")[0],
         populateCartItems: function(order) {
             return Promise.all(order.cartItems.map(function(cartItem) {
-                return $http.get('/api/products/' + cartItem.product)
-                .then(response => response.data)
+                return ProductsFactory.fetchOne(cartItem.product)
                 .then(productObj => {
                     cartItem.product = productObj.product;
                     return cartItem;
