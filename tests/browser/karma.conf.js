@@ -13,6 +13,7 @@ module.exports = function (config) {
         'public/main.js',
         'node_modules/sinon/pkg/sinon.js',
         'node_modules/angular-mocks/angular-mocks.js',
+        'browser/js/**/*.html',
         'tests/browser/**/*.js'
     ];
 
@@ -28,7 +29,8 @@ module.exports = function (config) {
         exclude: excludeFiles,
         reporters: ['mocha', 'coverage'],
         preprocessors: {
-            'public/main.js': 'coverage'
+            'public/main.js': 'coverage',
+            'browser/js/**/*.html': ['ng-html2js']
         },
         coverageReporter: {
             dir: 'coverage/browser/',
@@ -39,6 +41,9 @@ module.exports = function (config) {
                 type: 'html',
                 subdir: '.'
             }]
+        },
+        ngHtml2JsPreprocessor: {
+            stripPrefix: 'browser/'
         }
     };
 
