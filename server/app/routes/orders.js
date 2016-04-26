@@ -50,6 +50,7 @@ router.use(function(req, res, next) {
     } else next();
 });
 
+
 // Get all orders, or all the orders for the requested user
 router.get('/', Auth.assertAdminOrSelf, function(req, res, next) {
     Order.find({user: req.query.userId})
