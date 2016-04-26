@@ -6,7 +6,25 @@ module.exports = router;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
+
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
+const development = require('../../env/development.js');
+
+console.log("development user & password for Yahoo", development.YAHOO.user, development.YAHOO.password);
+
+
+const transporter = nodemailer.createTransport("SMTP",{
+    service: 'Yahoo',
+    auth: {
+        user: development.YAHOO.user,
+        pass: development.YAHOO.password
+    }
+});
+
+
 const stripe = require("stripe")("sk_test_BQokikJOvBiI2HlWgH4olfQ2");
+
 
 // Saves the document associated with the requested user to the req object.
 // This enables the Auth middleware to work.
@@ -45,6 +63,32 @@ router.get('/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
 // Note the req body must contain a user key and a cart key.
 // Look at the static in user.js for more information.
 router.post('/', function(req, res, next) {
+    User.findOrCreateOrUpdateUser(req.body.user)
+    .then(user => Order.create({user: user._id}))
+    .then(order => order.createItems(req.body.cart))
+    .then(function(order) {
+        // res.json(order);
+        return order;
+    })   
+    .then(function(order){
+        // send confirmation e-mail
+        transporter.sendMail({
+            from: 'upcycleny@yahoo.com',
+            to: req.body.user.email,
+            subject: 'Thank you for your Upcycle order!',
+            text: 'Thank you for your order!\n' +
+                  'You\'re confirmation number is ' + order._id + '\n\n' +
+                  'Please do not hesitate to contact us, if you have any questions.  We live to upcycle and serve!'
+        }, function(error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Message sent', response);
+        }
+    });
+    })
+    .then(null, next);
+
     var stripeToken = req.body.token;
     var charge = stripe.charges.create({
       amount: req.body.cost, // amount in cents, again
