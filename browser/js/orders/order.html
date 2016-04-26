@@ -1,0 +1,44 @@
+<section class="container" id="cart-page">
+    <p id="back" ui-sref='products'><- back to shopping!</p>
+    <hr>
+    <div id="items">
+        <h4>You purchased <font color="red">{{ quantityTotal }}</font> {{ item }} for a total of <font color="red">{{ priceTotal | currency:"$":2 }}</font> on {{date}}.</h4>
+        <table >
+            <tr>
+                <th>
+                    <h5>Product</h5>
+                </th>
+                <th>
+                    <h5>Quantity</h5>
+                </th>
+                <th>
+                    <h5>Price</h5>
+                </th>
+            </tr>
+            <tr ng-repeat='item in items'>
+                <td>
+                    <p>
+                        <a ui-sref="product({ productId: item.product._id })">{{item.product.title}}</a>
+                        <div class="image">
+                            <img src="{{item.product.photo}}" alt="" />
+                        </div>
+                    </p>
+                </td>
+                <td>
+                    <p>{{item.quantity}}</p>
+                </td>
+                <td>
+                    <p>{{item.product.price * item.quantity | currency:"$":2}}
+                </td>
+            </tr>
+            <tr id="last-line">
+                <td>Total:
+                </td>
+                <td>{{ quantityTotal }} {{ item }}
+                </td>
+                <td>{{ priceTotal | currency:"$":2 }}
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>

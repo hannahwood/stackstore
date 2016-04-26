@@ -7,7 +7,6 @@ var UserModel = mongoose.model('User');
 module.exports = function (app) {
 
     var facebookConfig = app.getValue('env').FACEBOOK;
-    console.log('facebookConfig:', facebookConfig);
 
     var facebookCredentials = {
         clientID: facebookConfig.clientID,
