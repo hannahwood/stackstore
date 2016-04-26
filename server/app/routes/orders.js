@@ -9,6 +9,11 @@ const Order = mongoose.model('Order');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
 
+const transporter = nodemailer.createTransport(smtpTransport({
+    host: 'localhost',
+    port: 25,
+}));
+
 // Saves the document associated with the requested user to the req object.
 // This enables the Auth middleware to work.
 router.use(function(req, res, next) {
@@ -49,7 +54,27 @@ router.post('/', function(req, res, next) {
     User.findOrCreateOrUpdateUser(req.body.user)
     .then(user => Order.create({user: user._id}))
     .then(order => order.createItems(req.body.cart))
-    .then(order => res.json(order))
+    .then(function(order) {
+        res.json(order);
+        return order;
+    })   
+    .then(function(order){
+        // send confirmation e-mail
+        transporter.sendMail({
+            from: 'administrator@upcycle.com',
+            to: req.body.user.email,
+            subject: 'Thank you for your Upcycle order!',
+            text: 'Thank you for your order!\n' +
+                  'You\'re confirmation number is ' + order._id + '\n\n' +
+                  'Please do not hesitate to contact us, if you have any questions.  We live to upcycle and serve!'
+        }, function(error, response) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Message sent');
+        }
+});
+    })
     .then(null, next);
 });
 
