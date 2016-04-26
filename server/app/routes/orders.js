@@ -6,13 +6,25 @@ module.exports = router;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
+
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
+const development = require('../../env/development.js');
 
-const transporter = nodemailer.createTransport(smtpTransport({
-    host: 'localhost',
-    port: 25,
-}));
+console.log("development user & password for Yahoo", development.YAHOO.user, development.YAHOO.password);
+
+
+const transporter = nodemailer.createTransport("SMTP",{
+    service: 'Yahoo',
+    auth: {
+        user: development.YAHOO.user,
+        pass: development.YAHOO.password
+    }
+});
+
+
+const stripe = require("stripe")("sk_test_BQokikJOvBiI2HlWgH4olfQ2");
+
 
 // Saves the document associated with the requested user to the req object.
 // This enables the Auth middleware to work.
@@ -55,13 +67,13 @@ router.post('/', function(req, res, next) {
     .then(user => Order.create({user: user._id}))
     .then(order => order.createItems(req.body.cart))
     .then(function(order) {
-        res.json(order);
+        // res.json(order);
         return order;
     })   
     .then(function(order){
         // send confirmation e-mail
         transporter.sendMail({
-            from: 'administrator@upcycle.com',
+            from: 'upcycleny@yahoo.com',
             to: req.body.user.email,
             subject: 'Thank you for your Upcycle order!',
             text: 'Thank you for your order!\n' +
@@ -71,11 +83,31 @@ router.post('/', function(req, res, next) {
             if (error) {
                 console.log(error);
             } else {
-                console.log('Message sent');
+                console.log('Message sent', response);
         }
-});
+    });
     })
     .then(null, next);
+
+    var stripeToken = req.body.token;
+    var charge = stripe.charges.create({
+      amount: req.body.cost, // amount in cents, again
+      currency: "usd",
+      source: stripeToken,
+      description: "Example charge",
+      receipt_email: req.body.email
+    }, function(err, charge) {
+      if (err && err.type === 'StripeCardError') {
+        console.log(err);
+    }
+    else {
+        User.findOrCreateOrUpdateUser(req.body.user)
+        .then(user => Order.create({user: user._id}))
+        .then(order => order.createItems(req.body.cart))
+        .then(order => res.json(order))
+        .then(null, next);
+    }
+    });
 });
 
 // Edit an order (admin only)

@@ -15,10 +15,9 @@ module.exports = {
     "clientID": "INSERT_GOOGLE_CLIENTID_HERE",
     "clientSecret": "INSERT_GOOGLE_CLIENT_SECRET_HERE",
     "callbackURL": "INSERT_GOOGLE_CALLBACK_HERE"
+  },
+  "YAHOO": {
+    "user": 'upcycleny@yahoo.com',
+    "password": 'upcycleme'
   }
 };
-
-
-// sendgrid username: elizabeth_funk@hotmail.com
-// sendgrid password: donutfunk2
-// sendgrid api key: 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
