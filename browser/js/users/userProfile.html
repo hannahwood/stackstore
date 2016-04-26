@@ -1,5 +1,6 @@
 <section class="container" id="cart-page">
     <p id="back" ui-sref='products'><- back to shopping!</p>
+    <div>
     <hr>
     <h4>Hello friend! This is your user profile. You can view your past orders or edit your profile here.</h4>
     <div id="center">
@@ -47,7 +48,7 @@
         </form>
     </div>
 
-    <div>
+    <div id="items">
         <h4>Here are your past orders! Select one to view order details</h4>
         <table >
             <tr>
@@ -55,15 +56,22 @@
                     <h5>Date</h5>
                 </th>
                 <th>
+                    <h5>Order Number</h5>
+                </th>
+                <th>
                     <h5>Current Order Status</h5>
                 </th>
             </tr>
             <tr ng-repeat='order in orders'>
                 <td>
+                    <p>{{order.date}}</p>
+                </td>
+                <td>
                     <p>
-                        <a ui-sref="order({ orderId: order._id })">{{order.date}}</a>
+                        <a ui-sref="order({ orderId: order._id })">{{order._id}}</a>
                     </p>
                 </td>
+
                 <td>
                     <p>{{order.status}}</p>
                 </td>
