@@ -34,26 +34,74 @@
                     <p>{{item.product.price * item.quantity | currency:"$":2}}
                 </td>
                 <td>
-                    <button id="remove" type="submit" ng-click="removeItem(item.product._id)" class="glyphicon glyphicon-remove-sign"></button> <font color='gray' size='2'>remove item</font>
+                    <button id="remove" type="submit" ng-click="removeItem(item.product._id)" class="glyphicon glyphicon-remove-sign"></button> <font color='gray' size='2'>Remove item</font>
                 </td>
             </tr>
             <tr id="last-line">
-                <td>total:
+                <td>Total:
                 </td>
                 <td>{{ quantityTotal() }} {{ item() }}
                 </td>
                 <td>{{ priceTotal() | currency:"$":2 }}
                 </td>
                 <td>
-                    <button ng-disabled="items.length < 1" type="submit" ng-click="removeAll()" class="glyphicon glyphicon-remove-sign"></button> remove all
+                    <button ng-disabled="items.length < 1" type="submit" ng-click="removeAll()" class="glyphicon glyphicon-remove-sign"></button> Remove all
                 </td>
             </tr>
         </table>
         <hr>
-    	<div id="center">
-    		<button ui-sref='checkout' ng-disabled="items.length < 1" id="submit" type="submit" name="Proceed to Checkout" value="Proceed to Checkout" title="Proceed to Checkout">Proceed to Checkout <strong>({{ priceTotal() | currency:"$":2 }})</strong></button> 
+    	<div ng-hide="startCheckout" id="center">
+    		<button ng-disabled="items.length < 1" id="submit" type="submit" name="Proceed to Checkout" value="Proceed to Checkout" title="Proceed to Checkout" ng-click="toggleCheckout()">Proceed to Checkout <strong>({{ priceTotal() | currency:"$":2 }})</strong></button>
     		<p>or</p>
     		<button ui-sref='products' id="shopping" type="submit" name="Continue Shopping" value="Continue Shopping" title="Continue Shopping">Continue Shopping</button>
     	</div>
+        <div ng-show="startCheckout" id="center">
+            <form id="login-form" name="checkOut" ng-submit="runStripe()">
+                <alert type="danger" ng-show="error">
+                    {{ error }}
+                </alert>
+
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <input type="text" ng-model="currentUser.name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">E-mail</label>
+                    <input type="text" ng-model="currentUser.email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Shipping Street Address</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.streetAddress" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Unit Number</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.unitNum" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="title">City</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.city" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">State</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.state" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Postal Code</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.postalCode" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="title">Country</label>
+                    <input type="text" ng-model="currentUser.shippingAddress.country" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Phone Number</label>
+                    <input type="text" ng-model="currentUser.phoneNum" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <h4>Your total is {{ priceTotal() | currency:"$":2 }}. Select "Purchase" to finalize your order.</h4>
+                </div>
+                <button id="customButton">Purchase</button>
+            </form>
+        </div>
     </div>
 </section>

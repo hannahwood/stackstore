@@ -6,6 +6,7 @@ module.exports = router;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Order = mongoose.model('Order');
+const stripe = require("stripe")("sk_test_BQokikJOvBiI2HlWgH4olfQ2");
 
 // Saves the document associated with the requested user to the req object.
 // This enables the Auth middleware to work.
@@ -44,11 +45,25 @@ router.get('/:orderId', Auth.assertAdminOrSelf, function(req, res, next) {
 // Note the req body must contain a user key and a cart key.
 // Look at the static in user.js for more information.
 router.post('/', function(req, res, next) {
-    User.findOrCreateOrUpdateUser(req.body.user)
-    .then(user => Order.create({user: user._id}))
-    .then(order => order.createItems(req.body.cart))
-    .then(order => res.json(order))
-    .then(null, next);
+    var stripeToken = req.body.token;
+    var charge = stripe.charges.create({
+      amount: req.body.cost, // amount in cents, again
+      currency: "usd",
+      source: stripeToken,
+      description: "Example charge",
+      receipt_email: req.body.email
+    }, function(err, charge) {
+      if (err && err.type === 'StripeCardError') {
+        console.log(err);
+    }
+    else {
+        User.findOrCreateOrUpdateUser(req.body.user)
+        .then(user => Order.create({user: user._id}))
+        .then(order => order.createItems(req.body.cart))
+        .then(order => res.json(order))
+        .then(null, next);
+    }
+    });
 });
 
 // Edit an order (admin only)
