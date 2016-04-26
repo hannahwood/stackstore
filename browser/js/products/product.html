@@ -53,7 +53,7 @@
             <p>{{review.description}}</p>
               <button ng-click="deleteReview(review._id)"ng-show="isAdmin">delete review</button>
               
-              <button class="twitter-share-button" ><a href="https://twitter.com/share" class="twitter-share-button" data-text="{{product.title}}" data-hashtags="upcycle"  ng-show="newReview._id === review._id" >Tweet</a></button>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{product.title}}" data-hashtags="upcycle"><button class="twitter-share-button" >Tweet</button></a>
 
             <hr>
         </ul>
