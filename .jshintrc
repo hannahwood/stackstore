@@ -16,6 +16,10 @@
               "afterEach",
               "it",
               "beforeEach",
-              "alert"
+              "alert",
+              "angular",
+              "document",
+              "window",
+              "StripeCheckout"
             ]
 }
