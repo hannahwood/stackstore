@@ -1,6 +1,6 @@
 describe('ProductFactory', function() {
 
-    beforeEach(module('FullstackGeneratedApp'));
+    beforeEach(module('FullstackGeneratedApp', 'js/home/home.html'));
     
     var $httpBackend,
         ProductsFactory;
@@ -8,6 +8,7 @@ describe('ProductFactory', function() {
         $httpBackend = _$httpBackend_;
         ProductsFactory = _ProductsFactory_;
     }));
+
 
     afterEach(function(){
         $httpBackend.verifyNoOutstandingExpectation();
@@ -18,6 +19,7 @@ describe('ProductFactory', function() {
         expect(ProductsFactory).to.be.an('object');
     });
 
+
     it('should get a product', function (done) {
         $httpBackend
             .expect('GET', '/api/products/xyz123')
@@ -25,7 +27,21 @@ describe('ProductFactory', function() {
         ProductsFactory.fetchOne('xyz123')
             .then(function(product) {
                 expect(product.title).to.equal('giraffe onesie');
+                done();
             });
+        $httpBackend.flush();
+    });
+
+    it('should get all products', function (done) {
+        $httpBackend
+            .expect('GET', '/api/products')
+            .respond(200, ['123xyz', 'abc123']);
+        ProductsFactory.fetchAll()
+            .then(function(products) {
+                expect(products.length).to.equal(2);
+                done();
+            });
+        $httpBackend.flush();
     });
 
 });

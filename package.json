@@ -5,7 +5,8 @@
   "main": "server/start.js",
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
-    "postinstall": "gulp build"
+    "postinstall": "gulp build",
+    "test": "karma start tests/browser/karma.conf.js"
   },
   "engines": {
     "node": ">=4.0.0"
@@ -48,6 +49,7 @@
     "karma-coverage": "^0.2.7",
     "karma-mocha": "^0.1.10",
     "karma-mocha-reporter": "^1.0.2",
+    "karma-ng-html2js-preprocessor": "^0.2.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "lodash": "^3.9.3",
     "mocha": "^2.4.5",
