@@ -27,16 +27,14 @@ app.factory('ProductsFactory', function($http, AuthService) {
     };
 
     ProductsFactory.isValid = function(cartArr) {
-        console.log(cartArr);
         let promisesForResponses = cartArr.map(item => $http.get('/api/products/' + item.product._id));
         let arrayOfAlerts = [];
 
         return Promise.all(promisesForResponses)
         .then(responses => responses.map(response => response.data.product))
         .then(arrOfProducts => {
-            console.log('arrOfProducts', arrOfProducts);
             arrOfProducts.forEach(function(product, idx) {
-                if (product.price !== cartArr[idx].price) {
+                if (product.price !== cartArr[idx].product.price) {
                     cartArr[idx].product.price = product.price;
                     arrayOfAlerts.push('Price for ' + product.title + ' has changed.');
                 }

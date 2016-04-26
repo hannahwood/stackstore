@@ -34,44 +34,35 @@ app.controller('CartCtrl', function($log, $scope, currentUser, $http, $state, Pr
         image: 'http://i.imgur.com/jA22n4z.png',
         locale: 'auto',
         token: function(token) {
-            console.log('TOKEN RECEIVED:', token);
-            var bodyObj = {cart: $scope.items , cost: $scope.priceTotal() * 100, user: $scope.currentUser , token: token.id};
+
+            var bodyObj = {
+                cart: $scope.items,
+                cost: $scope.priceTotal() * 100,
+                user: $scope.currentUser ,
+                token: token.id
+            };
+
             $http.post('/api/orders', bodyObj)
-            .then(function(order) {
-                console.log(order);
-                $state.go('home');
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+            .then($scope.removeAll)
+            .then(() => $state.go('home'))
+            .catch($log.error);
         }
     });
 
     angular.element(document.querySelector('#customButton')).on('click', function(e) {
     // Open Checkout with further options:
-    handler.open({
-      name: 'Upcycle.com',
-      description: $scope.quantityTotal() + ' items',
-      amount: $scope.priceTotal() * 100
+        handler.open({
+            name: 'Upcycle.com',
+            description: $scope.quantityTotal() + ' items',
+            amount: $scope.priceTotal() * 100
+        });
+        e.preventDefault();
     });
-    e.preventDefault();
-  });
 
     // Close Checkout on page navigation:
     angular.element(window).on('popstate', function() {
         handler.close();
     });
-
-
-
-
-    // $scope.checkOut = function() {
-
-
-
-
-
-
 
     $scope.quantityTotal = function() {
         var total = 0;
@@ -97,7 +88,7 @@ app.controller('CartCtrl', function($log, $scope, currentUser, $http, $state, Pr
             return elem.product._id !== id;
         });
 
-    localStorage.setItem('cart', JSON.stringify($scope.items));
+        localStorage.setItem('cart', JSON.stringify($scope.items));
 
     };
 
