@@ -34,7 +34,7 @@ app.config(function($stateProvider) {
     });
 });
 
-app.controller('ReviewCtrl', function($state, $scope, productAndReviews, currentUser, ReviewFactory) {
+app.controller('ReviewCtrl', function($state, $scope, productAndReviews, currentUser, ReviewFactory, $log) {
 
     $scope.user = currentUser;
 
@@ -51,7 +51,8 @@ app.controller('ReviewCtrl', function($state, $scope, productAndReviews, current
         .then(function(review) {
             console.log("review", review);
             $state.go('product', {productId: $scope.product._id, newReview: review});
-        });
+        })
+        .catch($log.error);
     };
 
     $scope.product = productAndReviews.product;
