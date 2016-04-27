@@ -53,8 +53,12 @@ router.use(function(req, res, next) {
 
 // Get all orders, or all the orders for the requested user
 router.get('/', Auth.assertAdminOrSelf, function(req, res, next) {
-    Order.find({user: req.query.userId})
-    .then(orders => res.json(orders))
+    var queryObj = {};
+    if (req.query.userId) queryObj = {user: req.query.userId};
+    Order.find(queryObj)
+    .then(orders => {
+        res.json(orders);
+    })
     .then(null, next);
 });
 
