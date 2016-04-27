@@ -1,0 +1,37 @@
+<section class="container" id="cart-page">
+    <p id="back" ui-sref='products'><- back to shopping!</p>
+    <hr>
+    <div id="items">
+        <h4>Users here</h4>
+        <table>
+            <tr>
+                <th>
+                    <h5>User ID</h5>
+                </th>
+                <th>
+                    <h5>Name</h5>
+                </th>
+                <th>
+                    <h5>Email</h5>
+                </th>
+            </tr>
+            <tr ng-repeat='user in allUsers'>
+                <td>
+                    <p>
+                      <a ui-sref='userProfile({userId: user._id})'>
+                      {{user._id}}</a>
+                    </p>
+                </td>
+                <td>
+                    <h4>{{user.name}}</h4>
+                </td>
+                <td>
+                    <p>{{user.email}}</p>
+                </td>
+                <!-- <td>
+                    <button ng-click="updateOneOrder(order._id, order.status)">Save update</button>
+                </td> -->
+            </tr>
+        </table>
+    </div>
+</section>
