@@ -3,6 +3,12 @@
     <hr>
     <div id="items">
         <h4>Orders here</h4>
+        <button ng-click="filter('shipped')">shipped</button>
+        <button ng-click="filter('cancelled')">cancelled</button>
+        <button ng-click="filter('processing')">processing</button>
+        <button ng-click="filter('created')">created</button>
+        <button ng-click="filter('completed')">completed</button>
+        <button ng-click="filter('all')">all</button>
         <table>
             <tr>
                 <th>
@@ -17,11 +23,15 @@
                 <th>
                     <h5>Status</h5>
                 </th>
+                <th>
+                    <h5>Update</h5>
+                </th>
             </tr>
             <tr ng-repeat='order in allOrders'>
                 <td>
                     <p>
-                      <h4>{{order._id}}</h4>
+                      <a ui-sref='order({orderId: order._id})'>
+                      {{order._id}}</a>
                     </p>
                 </td>
                 <td>
@@ -31,7 +41,12 @@
                     <p>{{order.user.name}}</p>
                 </td>
                 <td>
-                    <p>{{order.status}}</p>
+                    <select ng-model="order.status"
+                    ng-options="option for option in options">
+                    </select>
+                </td>
+                <td>
+                    <button ng-click="updateOneOrder(order._id, order.status)">Save update</button>
                 </td>
             </tr>
         </table>
