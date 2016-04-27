@@ -85,16 +85,19 @@ router.post('/', function(req, res, next) {
             User.findOrCreateOrUpdateUser(req.body.user)
             .then(user => Order.create({user: user._id}))
             .then(order => order.createItems(req.body.cart))
-            .then(order => res.json(order))
             .then(function(order){
-
+                res.json(order);
+                // this is needed to get order id for confirmation email
+                return order;
+            })
+            .then(function(order){
                 // send confirmation e-mail
                 transporter.sendMail({
                     from: 'upcycleny@yahoo.com',
                     to: req.body.user.email,
                     subject: 'Thank you for your Upcycle order!',
-                    text: 'Thank you for your order!\n' +
-                          'You\'re confirmation number is ' + order._id + '\n\n' +
+                    text: 'Thank you for your order!\n\n' +
+                          'You\'re confirmation number is ' + order._id + '.\n\n' +
                           'Please do not hesitate to contact us, if you have any questions.  We live to upcycle and serve!'
                 }, function(error, response) {
                     if (error) {
